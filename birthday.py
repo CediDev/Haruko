@@ -181,7 +181,10 @@ class birthday(Cog):
         users_string = ""   
         for record in items[0:10]:
             date_list = [i for i in record[1].split("-")]
-            user_name = await interaction.guild.fetch_member(record[0])
+            try:
+                user_name = await interaction.guild.fetch_member(record[0])
+            except Exception:
+                    continue
             users_string = users_string + f"`{user_name}`: {date_list[0]}.{date_list[1]}\n"
         pages = math.ceil(len(items) / 10)
         e=discord.Embed(title=f"Spis urodzin", description=f"{users_string}",color=discord.Color.yellow())
