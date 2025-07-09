@@ -1,0 +1,5 @@
+discord.py
+numpy
+matplotlib
+pillow
+requests
