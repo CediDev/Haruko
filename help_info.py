@@ -15,7 +15,7 @@ from zoneinfo import ZoneInfo
 from discord import app_commands
 from typing import Literal
 
-con = sqlite3.connect("selfies_database.db")
+con = sqlite3.connect('data/selfies_database.db')
 con.row_factory = sqlite3.Row
 cur = con.cursor()
 
