@@ -32,8 +32,11 @@ intents = discord.Intents.all()
 intents.message_content = True
 intents.members = True
 
-with open("TOKEN.txt") as f:
-    token = f.read().strip()
+if "BOT_TOKEN" in os.environ:
+    token = os.environ["BOT_TOKEN"]
+else:
+    with open("TOKEN.txt") as f:
+        token = f.read().strip()
     
 async def main():
 
