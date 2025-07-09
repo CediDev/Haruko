@@ -141,7 +141,7 @@ class listeners_tasks(Cog):
         raport_channel = self.bot.get_channel(1188542888989163620)
         CWD = Path(os.getcwd())
         date = t.strftime("%Y_%m_%d")
-        path = PurePath(CWD, Path("selfies_database.db"))
+        path = PurePath(CWD, Path("data/selfies_database.db"))
         if int(t.strftime("%d"))%2 != 0:
             os.system(f'cp {path} selfies_database_copy_{date}.db')
             copy_path = PurePath(CWD, Path(f"selfies_database_copy_{date}.db"))
