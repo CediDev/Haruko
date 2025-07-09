@@ -753,7 +753,7 @@ class economy_ex(Cog):
         if member == None:
             member = self.author
 
-        con = sqlite3.connect("selfies_database.db")
+        con = sqlite3.connect("data/selfies_database.db")
         con.row_factory = sqlite3.Row
         cur = con.cursor()
 
