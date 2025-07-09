@@ -18,7 +18,7 @@ from zoneinfo import ZoneInfo
 import math
 
 
-con = sqlite3.connect("selfies_database.db")
+con = sqlite3.connect('data/selfies_database.db')
 con.row_factory = sqlite3.Row
 cur = con.cursor()
 
