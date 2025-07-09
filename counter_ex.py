@@ -13,7 +13,7 @@ import time as t
 from zoneinfo import ZoneInfo
 from discord import app_commands
 from dataclasses import dataclass
-from aaaa import dupa
+
 
 
 con = sqlite3.connect('selfies_database.db')
