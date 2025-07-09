@@ -53,7 +53,6 @@ async def main():
     await bot.load_extension("listeners_tasks")
     await bot.load_extension("questy")
     await bot.load_extension("message_reminder")
-    await bot.load_extension("gambling")
     await bot.load_extension("reload")
     await bot.load_extension("birthday")
     #await bot.load_extension("addon")
