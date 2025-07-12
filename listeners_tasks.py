@@ -32,7 +32,7 @@ gallery_times = [
     datetime.time(hour=19, minute=7,tzinfo=ZoneInfo("Europe/Warsaw"))
 ]
 
-birthday_time = [datetime.time(hour=11,tzinfo=ZoneInfo("Europe/Warsaw")),datetime.time(hour=14,minute=30,tzinfo=ZoneInfo("Europe/Warsaw")),datetime.time(hour=19,minute=30,tzinfo=ZoneInfo("Europe/Warsaw")), datetime.time(hour=23,minute=5,tzinfo=ZoneInfo("Europe/Warsaw"))]
+birthday_time = [datetime.time(hour=11,tzinfo=ZoneInfo("Europe/Warsaw")),datetime.time(hour=14,minute=30,tzinfo=ZoneInfo("Europe/Warsaw")),datetime.time(hour=19,minute=30,tzinfo=ZoneInfo("Europe/Warsaw")), datetime.time(hour=23,minute=10,tzinfo=ZoneInfo("Europe/Warsaw"))]
 
 
 
