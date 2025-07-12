@@ -32,7 +32,7 @@ gallery_times = [
     datetime.time(hour=19, minute=7,tzinfo=ZoneInfo("Europe/Warsaw"))
 ]
 
-birthday_time = [datetime.time(hour=11,tzinfo=ZoneInfo("Europe/Warsaw")),datetime.time(hour=14,minute=30,tzinfo=ZoneInfo("Europe/Warsaw")),datetime.time(hour=19,minute=30,tzinfo=ZoneInfo("Europe/Warsaw")), datetime.time(hour=22,minute=45,tzinfo=ZoneInfo("Europe/Warsaw"))]
+birthday_time = [datetime.time(hour=11,tzinfo=ZoneInfo("Europe/Warsaw")),datetime.time(hour=14,minute=30,tzinfo=ZoneInfo("Europe/Warsaw")),datetime.time(hour=19,minute=30,tzinfo=ZoneInfo("Europe/Warsaw")), datetime.time(hour=23,tzinfo=ZoneInfo("Europe/Warsaw"))]
 
 
 
@@ -51,6 +51,7 @@ class listeners_tasks(Cog):
     
     @tasks.loop(time=birthday_time)
     async def birthday_checker(ctx, self):
+        print("test123")
         birthday_role = discord.utils.get(self.guild.roles, id = 1250518611114721312)
         urodziny_channel = ctx.bot.get_channel(628530693386797076)
         td_month = (t.strftime("%m"))
