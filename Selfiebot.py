@@ -56,6 +56,7 @@ async def main():
     await bot.load_extension("reload")
     await bot.load_extension("birthday")
     #await bot.load_extension("addon")
+    await bot.load_extension("polls_upgrade")
     await bot.start(token=token)
     
 
