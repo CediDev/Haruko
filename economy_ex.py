@@ -53,6 +53,11 @@ class economy_ex(Cog):
     async def close_connection(ctx, self):
         con.close()
 
+    @command()
+    async def b_database_restart(self, ctx):
+        cur.execute("UPDATE birthdays SET done = ?", (1,))
+        con.commit()
+        print("done")
 
     #sticky message
     
