@@ -55,7 +55,7 @@ class listeners_tasks(Cog):
     async def birthday_manual_trigger(self, ctx):
         await listeners_tasks.birthday_checker(self, ctx)
     
-    @tasks.loop(time=birthday_time)
+    #@tasks.loop(time=birthday_time)
     async def birthday_checker(ctx, self):
         birthday_role = discord.utils.get(self.guild.roles, id = 1250518611114721312)
         urodziny_channel = ctx.bot.get_channel(628530693386797076)
