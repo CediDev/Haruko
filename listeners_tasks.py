@@ -57,13 +57,13 @@ class listeners_tasks(Cog):
     
     @tasks.loop(time=birthday_time)
     async def birthday_checker(ctx, self):
-        print("test123")
         birthday_role = discord.utils.get(self.guild.roles, id = 1250518611114721312)
         urodziny_channel = ctx.bot.get_channel(628530693386797076)
         td_month = (t.strftime("%m"))
         td_day = (t.strftime("%d"))
         date = td_month+"-"+td_day
-        cur.execute("SELECT user_id FROM birthdays WHERE date = ? AND done = ?", (date,0))
+        print(date)
+        cur.execute("SELECT user_id FROM birthdays WHERE date = ?", (date,))
         wynik = cur.fetchall()
         if wynik is None: 
             pass
