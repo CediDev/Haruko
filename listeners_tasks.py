@@ -32,7 +32,10 @@ gallery_times = [
     datetime.time(hour=19, minute=7,tzinfo=ZoneInfo("Europe/Warsaw"))
 ]
 
-birthday_time = [datetime.time(hour=11,tzinfo=ZoneInfo("Europe/Warsaw")),datetime.time(hour=14,minute=30,tzinfo=ZoneInfo("Europe/Warsaw")),datetime.time(hour=19,minute=30,tzinfo=ZoneInfo("Europe/Warsaw")), datetime.time(hour=23,minute=10,tzinfo=ZoneInfo("Europe/Warsaw"))]
+birthday_time = [datetime.time(hour=14,tzinfo=ZoneInfo("Europe/Warsaw")),
+                datetime.time(hour=15,tzinfo=ZoneInfo("Europe/Warsaw")),
+                datetime.time(hour=16,tzinfo=ZoneInfo("Europe/Warsaw")),
+                datetime.time(hour=17,tzinfo=ZoneInfo("Europe/Warsaw"))]
 
 
 
@@ -48,6 +51,9 @@ class listeners_tasks(Cog):
         self.id_channel = self.bot.get_channel(1201517637197365319)
         self.gallery_channel = self.bot.get_channel(497361494833496064)
         
+    @command()
+    async def birthday_manual_trigger(self, ctx):
+        await listeners_tasks.birthday_checker(self, ctx)
     
     @tasks.loop(time=birthday_time)
     async def birthday_checker(ctx, self):
