@@ -29,7 +29,7 @@ class Poll(discord.ui.View):
         options: list[str | None]
     ) -> None:
         self.multiple_choice: bool = multiple_choice
-        self.option_votes_map: dict[int, list[User | Member]]  = {index:[] for index in range(len(options))}
+        self.option_to_voters_map: dict[int, list[User | Member]]  = {index:[] for index in range(len(options))}
         self.privacy_button_colour: discord.ButtonStyle = discord.ButtonStyle.red
         self.privacy_button_text: PrivacyButtonText = PrivacyButtonText.PRIVATE
         self.author = author
@@ -40,52 +40,56 @@ class Poll(discord.ui.View):
     @property
     def voters(self) -> list[User | Member]:
         return list(set(chain.from_iterable(
-            _voters for _voters in self.option_votes_map.values()
+            _voters for _voters in self.option_to_voters_map.values()
         )))
 
-    async def get_user_votes(self, user_id: int) -> list[int]:
-        return [option_index for option_index, votes in self.option_votes_map.items() if user_id in votes]
+    async def get_user_votes(self, user: User | Member) -> list[int]:
+        return [
+            option_index
+            for option_index, voters in self.option_to_voters_map.items()
+            if user in voters
+        ]
 
     async def make_embed(self) -> discord.Embed:
         match self.show_results, self.privacy_button_text:
             case False, PrivacyButtonText.PRIVATE:
                 embed = discord.Embed(title=self.title, description=f"Liczba głosów: {len(self.voters)}", color=discord.Colour.pink())
-            case False, PrivacyButtonText.PUBLIC:
-                raise ValueError("Are you retarded")
             case True, PrivacyButtonText.PRIVATE:
                 embed = discord.Embed(title=self.title, description=f"Liczba głosów: {len(self.voters)}", color=discord.Colour.pink())
-                for option, votes in zip(self.options, self.option_votes_map.values(), strict=True):
+                for option, votes in zip(self.options, self.option_to_voters_map.values(), strict=True):
                     if option:
                         embed.add_field(name=f"{FULL_EMOJI} {option}", value="> " + str(len(votes)) + " głosów")
             case True, PrivacyButtonText.PUBLIC:
                 embed = discord.Embed(title=self.title, description=f"Liczba głosów: {len(self.voters)}", color=discord.Colour.pink())
-                for option, votes in zip(self.options, self.option_votes_map.values(), strict=True):
+                for option, votes in zip(self.options, self.option_to_voters_map.values(), strict=True):
                     if option:
                         embed.add_field(
                             name=f"{FULL_EMOJI} {option}",
                             value="> " + str(len(votes)) + f" głosów\n{', '.join(user.name for user in votes)}",
                         )
+            case False, PrivacyButtonText.PUBLIC:
+                raise ValueError("Configuration makes no sense")  # TODO: handle this case
         return embed
 
 
 
     def add_buttons(self):
         async def option_button(interaction:discord.Interaction, index: int):
-            votes = await self.get_user_votes(interaction.user.id)
+            votes = await self.get_user_votes(interaction.user)
             if index in votes:
                 await interaction.response.send_message("Już zagłosowałeś na tę opcję!", ephemeral=True)
                 return
             if self.multiple_choice:
-                self.option_votes_map[index].append(interaction.user)
+                self.option_to_voters_map[index].append(interaction.user)
                 embed = await self.make_embed()
                 await interaction.response.edit_message(embeds=[embed], view=self)
                 await interaction.followup.send("Pomyślnie oddano głos!", ephemeral=True)
                 return
             else:
-                self.option_votes_map[index].append(interaction.user)
+                self.option_to_voters_map[index].append(interaction.user)
                 if votes:  # non-empty list -> user already voted
                     option_index = votes[0]  # single choice poll means that there is only one vote in votes
-                    self.option_votes_map[option_index].remove(interaction.user)
+                    self.option_to_voters_map[option_index].remove(interaction.user)
                     await interaction.followup.send("Pomyślnie zmieniono głos!", ephemeral=True)
                 else:
                     await interaction.followup.send("Pomyślnie oddano głos!", ephemeral=True)
