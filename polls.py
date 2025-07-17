@@ -386,7 +386,7 @@ class polls(Cog):
     @command()
     async def edit_test(self, ctx, id, msg):
         message_to_edit = ctx.fetch_message(id)
-        message_to_edit.edit(content=msg)
+        await message_to_edit.edit(content=msg)
 
     
     async def find_nonvoters(self, poll_instance) -> list:
