@@ -336,7 +336,8 @@ class polls(Cog):
             full_emoji = discord.utils.get(self.bot.emojis, name="arrow_right")
             main_embed = discord.Embed(title=tytuł)
             polls_instance = polls.pollsButtons(self,typ, tytuł, interaction.channel, interaction.user, opcja_pierwsza, opcja_druga, opcja_trzecia, opcja_czwarta)
-            await interaction.response.send_message(embed= main_embed,view=polls_instance)
+            message = await interaction.response.send_message(embed= main_embed,view=polls_instance)
+            await message.create_thread(name=tytuł)
             if interaction.guild.id == 1198978337150881812 or interaction.guild.id == 963476559585505360:
                 poll_message:discord.Message = await interaction.original_response()
                 self.bot.polls_instances_list.append([polls_instance, poll_message, 0])
@@ -376,7 +377,12 @@ class polls(Cog):
                             + f"**Zagłosowali**: {[member.name for member in instance.overall_list]} \n"
                             + f"**Widoczność**: {instance.admin_text} \n"
                             + f"**Brak głosu**: {nonvoters_str}")
-                
+
+
+    @command()
+    async def edit_test(self, ctx, id, msg):
+        message_to_edit = ctx.fetch_message(id)
+        message_to_edit.edit(content=msg)
 
     
     async def find_nonvoters(self, poll_instance) -> list:
