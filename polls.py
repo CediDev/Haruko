@@ -105,7 +105,9 @@ class polls(Cog):
                     if interaction.user not in self.overall_list:
                         self.lists[0].append("`"+str(interaction.user.name)+"`")
                         self.overall_list.append(interaction.user)
-                        embed_s = await polls.pollsButtons.embed_maker(self, len(buttons_dict))                     
+                        embed_s = await polls.pollsButtons.embed_maker(self, len(buttons_dict))
+                        print(interaction)
+                        print(interaction.data)
                         await interaction.response.edit_message(embeds= [embed_s], view=self, )
                         await interaction.followup.send("Pomyślnie oddano głos!", ephemeral=True)
                         await polls.pollsButtons.archiver(self, buttons_dict)
@@ -136,7 +138,9 @@ class polls(Cog):
                     if interaction.user not in self.overall_list:
                         self.lists[1].append("`"+str(interaction.user.name)+"`")
                         self.overall_list.append(interaction.user)
-                        embed_s= await polls.pollsButtons.embed_maker(self, len(buttons_dict))                       
+                        embed_s= await polls.pollsButtons.embed_maker(self, len(buttons_dict))   
+                        print(interaction)
+                        print(interaction.data)
                         await interaction.response.edit_message(embeds= [embed_s], view=self,)
                         await interaction.followup.send("Pomyślnie oddano głos!", ephemeral=True)
                         await polls.pollsButtons.archiver(self, buttons_dict)
