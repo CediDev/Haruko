@@ -48,7 +48,7 @@ async def main():
     bot.remove_command("help")
     await bot.load_extension("economy_ex")
     await bot.load_extension("counter_ex")
-    await bot.load_extension("polls")
+    await bot.load_extension("Polls")
     await bot.load_extension("instances_archive")
     await bot.load_extension("listeners_tasks")
     await bot.load_extension("questy")
@@ -56,7 +56,6 @@ async def main():
     await bot.load_extension("reload")
     await bot.load_extension("birthday")
     #await bot.load_extension("addon")
-    await bot.load_extension("polls_upgrade")
     await bot.start(token=token)
     
 
