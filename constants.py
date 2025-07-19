@@ -1,7 +1,8 @@
 from enum import Enum
+from pathlib import Path
 from typing import Literal
 
-CEDISZ_ID = 397329204867235842
+CEDISZ_ID = 742425630024400897
 
 ST_ADMIN_SERVER_ID = 1198978337150881812
 
@@ -9,16 +10,26 @@ FULL_EMOJI = "▶"
 
 PollType = Literal["Wybór jednokrotny", "Wybór wielokrotny"]
 
+IMAGES_DIRECTORY_PATH = Path("images")
+
+
+class Extensions(Enum):
+    POLLS = "extensions.Polls"
+    LISTENERS = "extensions.Listeners"
+    GIFT = "extensions.Gift"
+
+
+READY_EXTENSIONS = [
+    Extensions.POLLS
+]
+
+
+COMMAND_PREFIX = "s!"
+
 class PrivacyButtonText(Enum):
     PRIVATE = "Prywatne"
     PUBLIC = "Publiczne"
 
-# REMINDER_HOURS = [
-#     datetime.time(hour=6,tzinfo=ZoneInfo("Europe/Warsaw")),
-#     datetime.time(hour=12,tzinfo=ZoneInfo("Europe/Warsaw")),
-#     datetime.time(hour=18,tzinfo=ZoneInfo("Europe/Warsaw")),
-#     datetime.time(hour=23,minute=59,tzinfo=ZoneInfo("Europe/Warsaw")),
-# ]
 
 class RoleId(Enum):
     OPIEKUN_KANALU_ROLE_ID = 412193755286732800
@@ -47,6 +58,21 @@ POLLS_PRIVILEDGE_ROLES = [
 ]
 
 
-
+SELFIES_PLUS_CHANNEL_ID = 412146947412197396
+SELFIES_BOT_CHANNEL_ID = 1179884652522115102
+SELFIES_RAPORT_CHANNEL_ID = 1188542888989163620
+SELFIES_CHANNEL_ID = 1199385908517032026
+SELFIES_STICKY_MESSAGE_CHANNEL_ID = 1203338155617554504
+TICKET_CHANNEL_ID = 1213901611836117052
 
 ARCHIVE_CHANNEL_ID = 1211268323875102820
+
+
+GIFT_REWARDS_PROBABILITIES = {
+    "1000 punktów" : 0.50,
+    "3000 punktów" : 0.30,
+    "5000 punktów" : 0.10,
+    "Własny kolor nicku na 14 dni" : 0.07,
+    "Losowa gra na Steam" : 0.03
+}
+
