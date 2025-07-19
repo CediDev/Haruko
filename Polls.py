@@ -247,7 +247,7 @@ class Polls(Cog):
         self.bot = bot
         self.polls: dict[int, Poll] = {}
         
-        sqlite_file_name = "polls_database.db"
+        sqlite_file_name = "data/selfies_database.db"
         sqlite_url = f"sqlite:///{sqlite_file_name}"
 
         self.engine = create_engine(sqlite_url, echo=True)
