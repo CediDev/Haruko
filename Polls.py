@@ -318,7 +318,7 @@ class Polls(Cog):
                 case ButtonType.OPTION_VOTE:
                     await poll._option_button(interaction, button_index)
 
-    @app_commands.command(name="ankieta_test", description="Stwórz ankietę")
+    @app_commands.command(name="ankieta", description="Stwórz ankietę")
     @app_commands.describe(tytuł="Wybierz tytuł ankiety",
                            typ = "Wybierz typ ankiety",
                            opcja_pierwsza="Określ pierwszą opcję do zagłosowania (maksymalnie 80 znaków!)",
