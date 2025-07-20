@@ -59,14 +59,22 @@ async def main():
     await bot.start(token=token)
     
 
-    @app_commands.context_menu(name="test_context")
-    async def text_context_menu(interaction: discord.Interaction, user:discord.User):
-        await interaction.response.send_message(f"Test{user.name}", ephemeral=True)
+async def cleanup():
+    print("Cleaning up before shutdown...")
+    # Perform any necessary cleanup here
+    await asyncio.sleep(1)
 
-    
-    bot.tree.add_command(text_context_menu)
-    
-    
+
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    try:
+        asyncio.run(main())
+
+    except KeyboardInterrupt:
+        print("Received exit signal, shutting down...")
+        asyncio.run(cleanup())
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    finally:
+        print("Cleanup complete. Exiting.")
