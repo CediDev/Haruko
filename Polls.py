@@ -254,7 +254,7 @@ class Polls(Cog):
 
         SQLModel.metadata.create_all(self.engine)
 
-    async def teardown(self) -> None:
+    async def teardown(self.bot) -> None:
         print("------------called destructor------------")
         with Session(self.engine) as session:
             print("test1")
