@@ -5,7 +5,7 @@ from enum import Enum
 
 import discord
 from discord import Member, TextChannel, User, app_commands
-from discord.ext.commands import Bot, Cog
+from discord.ext.commands import Bot, Cog, command
 from discord.enums import InteractionType, ComponentType
 
 from sqlmodel import Field, SQLModel, select, Session, create_engine, update
