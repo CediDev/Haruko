@@ -257,6 +257,7 @@ class Polls(Cog):
     async def teardown(self) -> None:
         print("------------called destructor------------")
         with Session(self.engine) as session:
+            print("test1")
             results = session.exec(select(PollDB.poll_id)).all()
             
             for message_id, poll in self.polls.items():
@@ -270,6 +271,7 @@ class Polls(Cog):
                     session.exec(update(PollDB).where(PollDB.poll_id == poll.poll_id).values({"poll_id":poll_db.poll_id, "message_id":message_id, "poll_data":poll_db.poll_data})) #type:ignore
                 else:  
                     session.add(poll_db)  
+            print("test2")
             session.commit()
 
     @app_commands.command(name='sync', description='Owner only')
