@@ -275,7 +275,7 @@ class Polls(Cog):
 
     @app_commands.command(name='sync', description='Owner only')
     @app_commands.guilds(discord.Object(id=963476559585505360))
-    async def sync(interaction: discord.Interaction):
+    async def sync(self, interaction: discord.Interaction):
         if interaction.user.id == 742425630024400897:
             await tree.sync()
             print('Command tree synced.')
