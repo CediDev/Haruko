@@ -254,7 +254,7 @@ class Polls(Cog):
 
         SQLModel.metadata.create_all(self.engine)
 
-    async def teardown(self, bot) -> None:
+    async def teardown(self) -> None:
         print("------------called destructor------------")
         with Session(self.engine) as session:
             print("test1")
@@ -353,6 +353,12 @@ class Polls(Cog):
             message: discord.InteractionCallbackResponse = await interaction.response.send_message(embed=embed, view=poll) 
             self.polls[message.message_id] = poll #type:ignore
 
+
+
+async def teardown(bot:Bot):
+    polls_cog = bot.get_cog("Polls")
+    assert polls_cog
+    await polls_cog.teardown()
 
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))
