@@ -277,15 +277,14 @@ class Polls(Cog):
     @app_commands.guilds(discord.Object(id=963476559585505360))
     async def sync(self, interaction: discord.Interaction):
         if interaction.user.id == 742425630024400897:
-            await tree.sync()
+            await self.bot.tree.sync()
             print('Command tree synced.')
         else:
             await interaction.response.send_message('You must be the owner to use this command!')
     
     @command()
     async def sync_apps(self, ctx):
-        await self.tree.sync(guild=discord.Object(id=963476559585505360))
-    
+        await self.bot.tree.sync(guild=discord.Object(id=963476559585505360))
     
     
     def _check_if_poll_is_loaded(self, poll_id: int) -> bool:
