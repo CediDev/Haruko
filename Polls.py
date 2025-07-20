@@ -254,7 +254,7 @@ class Polls(Cog):
 
         SQLModel.metadata.create_all(self.engine)
 
-    def __del__(self) -> None:
+    async def teardown(self) -> None:
         print("------------called destructor------------")
         with Session(self.engine) as session:
             results = session.exec(select(PollDB.poll_id)).all()
@@ -269,8 +269,7 @@ class Polls(Cog):
                 if poll.poll_id in results:
                     session.exec(update(PollDB).where(PollDB.poll_id == poll.poll_id).values({"poll_id":poll_db.poll_id, "message_id":message_id, "poll_data":poll_db.poll_data})) #type:ignore
                 else:  
-                    session.add(poll_db)
-                
+                    session.add(poll_db)  
             session.commit()
 
     @app_commands.command(name='sync', description='Owner only')
