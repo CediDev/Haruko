@@ -59,20 +59,9 @@ async def main():
     await bot.start(token=token)
     
 
-async def cleanup():
-    print("Cleaning up before shutdown...")
-    # Perform any necessary cleanup here
-    await asyncio.sleep(1)
-
-
 if __name__ == "__main__":
-    try:
-       loop = asyncio.get_event_loop()
-        loop.run_until_complete(main())
-    
-    except KeyboardInterrupt:
-        print("Received exit signal, shutting down...")
-        asyncio.run(cleanup())
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
 
     except Exception as e:
         print(f"An error occurred: {e}")
