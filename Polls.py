@@ -282,7 +282,7 @@ class Polls(Cog):
         else:
             await interaction.response.send_message('You must be the owner to use this command!')
     
-    @commmand
+    @commmand()
     async def sync_apps(self, ctx):
         await self.tree.sync(guild=discord.Object(id=963476559585505360))
     
