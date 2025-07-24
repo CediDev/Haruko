@@ -115,7 +115,7 @@ class Poll(discord.ui.View):
     async def make_embed(self) -> discord.Embed:
         DESCRIPTION = "Liczba głosów: {total_votes} | Liczba głosujących: {unique_votes}"
         embed = discord.Embed(
-            title=self.title,
+            title=f"{self.title} | {self.privacy_button.label}", #type:ignore
             description=DESCRIPTION.format(total_votes=self.total_votes, unique_votes=self.unique_votes),
             color=discord.Colour.pink(),
         )
@@ -233,7 +233,7 @@ class Poll(discord.ui.View):
             if interaction.guild_id == ST_ADMIN_SERVER_ID or _check_priviledge(cast(Member, interaction.user), []):
                 assert isinstance(interaction.channel, discord.TextChannel)
                 able_to_vote = interaction.channel.members
-                nonvoters = [member for member in able_to_vote if member.id not in self.unique_voters and not member.bot]
+                nonvoters = [member for member in able_to_vote if member not in self.unique_voters and not member.bot]
                 message_str = "Brak oddanego głosu: "
                 for member in nonvoters:
                     message_str += f"{member.name}, "
@@ -254,7 +254,9 @@ class Polls(Cog):
 
         SQLModel.metadata.create_all(self.engine)
 
-    async def teardown(self) -> None:
+
+    @command()
+    async def polls_to_db(self, ctx):
         print("------------called destructor------------")
         with Session(self.engine) as session:
             print("test1")
@@ -352,13 +354,15 @@ class Polls(Cog):
             poll = Poll(interaction.id, tytuł, interaction.user, True if typ == "Wybór wielokrotny" else False, options)
             message: discord.InteractionCallbackResponse = await interaction.response.send_message(embed=embed, view=poll) 
             self.polls[message.message_id] = poll #type:ignore
+            await message.create_thread(name=f"Dyskusja", auto_archive_duration = 10080)
+            
 
 
 
-async def teardown(bot:Bot):
-    polls_cog = bot.get_cog("Polls")
-    assert polls_cog
-    await polls_cog.teardown()
+# async def teardown(bot:Bot):
+#     polls_cog = bot.get_cog("Polls")
+#     assert polls_cog
+#     await polls_cog.teardown()
 
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))

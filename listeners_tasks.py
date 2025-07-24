@@ -32,10 +32,8 @@ gallery_times = [
     datetime.time(hour=19, minute=7,tzinfo=ZoneInfo("Europe/Warsaw"))
 ]
 
-'''birthday_time = [datetime.time(hour=14,tzinfo=ZoneInfo("Europe/Warsaw")),
-                datetime.time(hour=15,tzinfo=ZoneInfo("Europe/Warsaw")),
-                datetime.time(hour=16,tzinfo=ZoneInfo("Europe/Warsaw")),
-                datetime.time(hour=17,tzinfo=ZoneInfo("Europe/Warsaw"))]'''
+birthday_time = datetime.time(hour=12)
+                
 
 
 
@@ -55,7 +53,7 @@ class listeners_tasks(Cog):
     async def birthday_manual_trigger(self, ctx):
         await listeners_tasks.birthday_checker(self, ctx)
     
-    #@tasks.loop(time=birthday_time)
+    @tasks.loop(time=birthday_time)
     async def birthday_checker(ctx, self):
         birthday_role = discord.utils.get(self.guild.roles, id = 1250518611114721312)
         urodziny_channel = ctx.bot.get_channel(628530693386797076)
@@ -204,7 +202,7 @@ class listeners_tasks(Cog):
             listeners_tasks.birthday_checker.cancel()
             print("done")
         else:
-            self.send("Nie masz permisji nubku")        
+            self.send("Nie masz permisji nubku")     
     
     
     @dataclass
