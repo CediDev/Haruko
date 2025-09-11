@@ -213,10 +213,13 @@ class listeners_tasks(Cog):
         prog:int
         name:str
         
-
+    @command()
+    async def manual_gallery_trigger(ctx, self, days_count=None)
+       await listeners_tasks.gallery_checker(ctx, self, days_count)
         
     @tasks.loop(time=gallery_times)
-    async def gallery_checkertest(ctx, self):
+    async def gallery_checkertest(ctx, self, days_count=None):
+        if not days_count: days_count = 15 else days_count=int(days_count)
         
         categories = [
             listeners_tasks.category(1201517637197365319, 497361494833496064, 412146947412197396, 25, "Galeria Strefy Selfies"),
@@ -225,9 +228,9 @@ class listeners_tasks(Cog):
             listeners_tasks.category(1211334865954545694, 856870066175868968, 412147918980644864, PLACEHOLDER, "Galeria Strefy Pupili")
         ]
         
-        tday = (datetime.date.today() - datetime.timedelta(days=15)).day
-        tmonth = (datetime.date.today() - datetime.timedelta(days=15)).month
-        tyear = (datetime.date.today() - datetime.timedelta(days=15)).year
+        tday = (datetime.date.today() - datetime.timedelta(days=days_count)).day
+        tmonth = (datetime.date.today() - datetime.timedelta(days=days_count)).month
+        tyear = (datetime.date.today() - datetime.timedelta(days=days_count)).year
         
         photos_channel_property = ctx.bot.get_channel(category.photos_channel_id)
         gallery_channel_property = ctx.bot.get_channel(category.gallery_channel_id)
@@ -345,7 +348,9 @@ class listeners_tasks(Cog):
 
 
     @tasks.loop(time=gallery_times)
-    async def gallery_checker(ctx, self):
+    async def gallery_checker(ctx, self, days_count=None):
+        if not days_count: days_count = 15 else days_count=int(days_count)
+        
         channels = await listeners_tasks.channels_func(ctx, self)
         
         tday = (datetime.date.today() - datetime.timedelta(days=15)).day
