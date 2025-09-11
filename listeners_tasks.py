@@ -391,12 +391,14 @@ class listeners_tasks(Cog):
                         draw.text(xy=((max_width-wszerz)/2,45), text=f"{reaction.count}", font=fnt, fill=(255,255,255,255))
                         out = Image.alpha_composite(base, txt)
                         e.set_author(name = f"{msg.author.name}", icon_url = msg.author.avatar.url)
+                        print("1")
                         async for message in channels[strefa][0].history(after=datetime.datetime(tyear, tmonth, tday)):
                             id_list = list(message.content.split(","))
                             if msg.id != int(id_list[0]):
                                 continue
                             elif msg.id == int(id_list[0]):
                                 form = 1 
+                                print("2")
                                 gallery_message = await channels[strefa][1].fetch_message(int(id_list[1]))
                                 with BytesIO() as file:
                                     out.save(file, format="PNG")
@@ -404,6 +406,7 @@ class listeners_tasks(Cog):
                                     discord_file = discord.File(file, filename="image.png")
                                     e.set_thumbnail(url = "attachment://image.png")
                                     await gallery_message.edit(embed=e, attachments=[discord_file])
+                        print("3")
                         if form == 0:
                             with BytesIO() as file:
                                 out.save(file, format="PNG")
@@ -553,5 +556,6 @@ class listeners_tasks(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(listeners_tasks(bot))
+
 
 
