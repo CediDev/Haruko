@@ -373,9 +373,11 @@ class listeners_tasks(Cog):
                     if reaction.count >= channels[strefa][3]:
                         cur.execute("SELECT current_counter FROM players WHERE id = ?", (msg.author.id,))
                         counter = cur.fetchone()[0]
-                        if strefa=="strefa_selfies":print(counter)
+                        if strefa=="strefa_selfies":
+                            print(counter)
                         if counter == None:
                             counter = "count_basic.png"
+                        print("0.1")
                         path_to_counter = str(PurePath(CWD, counters, Path(counter)))
                         attachment = msg.attachments[0]
                         e=discord.Embed(title=f"{msg.jump_url}", description=channels[strefa][4],color=discord.Color.yellow())
@@ -384,6 +386,7 @@ class listeners_tasks(Cog):
                         max_width =base.size[0]
                         max_height =base.size[1]
                         txt = Image.new("RGBA", (max_width, max_height), (255,255,255,0))
+                        print("0.2")
                         draw = ImageDraw.Draw(txt)
                         fnt = ImageFont.truetype("AGENCYR.TTF", 290)
                         size = draw.textbbox(xy = (0,0),text=f"{reaction.count}", font=fnt)
@@ -556,6 +559,7 @@ class listeners_tasks(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(listeners_tasks(bot))
+
 
 
 
