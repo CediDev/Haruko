@@ -218,7 +218,7 @@ class listeners_tasks(Cog):
        await listeners_tasks.gallery_checkertest(ctx, self, days_count)
         
     @tasks.loop(time=gallery_times)
-    async def gallery_checkertest(ctx, self, days_count=None):
+    async def gallery_checker(ctx, self, days_count=None):
         days_count = int(days_count) if days_count else 15
         
         categories = [
@@ -347,7 +347,7 @@ class listeners_tasks(Cog):
         await self.send("Zmieniono próg")
 
 
-    @tasks.loop(time=gallery_times)
+    #@tasks.loop(time=gallery_times)
     async def gallery_checker(ctx, self, days_count=None):
         days_count = int(days_count) if days_count else 15
         
@@ -377,7 +377,7 @@ class listeners_tasks(Cog):
                             print(counter)
                         if counter == None:
                             counter = "count_basic.png"
-                        print("0.1")
+                        print("1")
                         path_to_counter = str(PurePath(CWD, counters, Path(counter)))
                         attachment = msg.attachments[0]
                         e=discord.Embed(title=f"{msg.jump_url}", description=channels[strefa][4],color=discord.Color.yellow())
@@ -386,7 +386,7 @@ class listeners_tasks(Cog):
                         max_width =base.size[0]
                         max_height =base.size[1]
                         txt = Image.new("RGBA", (max_width, max_height), (255,255,255,0))
-                        print("0.2")
+                        print("2")
                         draw = ImageDraw.Draw(txt)
                         fnt = ImageFont.truetype("AGENCYR.TTF", 290)
                         size = draw.textbbox(xy = (0,0),text=f"{reaction.count}", font=fnt)
@@ -394,14 +394,14 @@ class listeners_tasks(Cog):
                         draw.text(xy=((max_width-wszerz)/2,45), text=f"{reaction.count}", font=fnt, fill=(255,255,255,255))
                         out = Image.alpha_composite(base, txt)
                         e.set_author(name = f"{msg.author.name}", icon_url = msg.author.avatar.url)
-                        print("1")
+                        print("3")
                         async for message in channels[strefa][0].history(after=datetime.datetime(tyear, tmonth, tday)):
                             id_list = list(message.content.split(","))
                             if msg.id != int(id_list[0]):
                                 continue
                             elif msg.id == int(id_list[0]):
                                 form = 1 
-                                print("2")
+                                print("4")
                                 gallery_message = await channels[strefa][1].fetch_message(int(id_list[1]))
                                 with BytesIO() as file:
                                     out.save(file, format="PNG")
@@ -559,6 +559,7 @@ class listeners_tasks(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(listeners_tasks(bot))
+
 
 
 
