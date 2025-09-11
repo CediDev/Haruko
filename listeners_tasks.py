@@ -353,9 +353,9 @@ class listeners_tasks(Cog):
         
         channels = await listeners_tasks.channels_func(ctx, self)
         
-        tday = (datetime.date.today() - datetime.timedelta(days=15)).day
-        tmonth = (datetime.date.today() - datetime.timedelta(days=15)).month
-        tyear = (datetime.date.today() - datetime.timedelta(days=15)).year
+        tday = (datetime.date.today() - datetime.timedelta(days=days_count)).day
+        tmonth = (datetime.date.today() - datetime.timedelta(days=days_count)).month
+        tyear = (datetime.date.today() - datetime.timedelta(days=days_count)).year
         
         CWD = Path(os.getcwd())
         counters = Path("grafiki/liczniki")
@@ -553,4 +553,5 @@ class listeners_tasks(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(listeners_tasks(bot))
+
 
