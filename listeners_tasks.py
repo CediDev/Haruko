@@ -219,7 +219,7 @@ class listeners_tasks(Cog):
         
     @tasks.loop(time=gallery_times)
     async def gallery_checkertest(ctx, self, days_count=None):
-        if not days_count: days_count = 15 else days_count=int(days_count)
+        days_count = int(days_count) if days_count else 15
         
         categories = [
             listeners_tasks.category(1201517637197365319, 497361494833496064, 412146947412197396, 25, "Galeria Strefy Selfies"),
@@ -349,7 +349,7 @@ class listeners_tasks(Cog):
 
     @tasks.loop(time=gallery_times)
     async def gallery_checker(ctx, self, days_count=None):
-        if not days_count: days_count = 15 else days_count=int(days_count)
+        days_count = int(days_count) if days_count else 15
         
         channels = await listeners_tasks.channels_func(ctx, self)
         
@@ -553,3 +553,4 @@ class listeners_tasks(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(listeners_tasks(bot))
+
