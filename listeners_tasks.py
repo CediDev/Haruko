@@ -214,7 +214,7 @@ class listeners_tasks(Cog):
         name:str
         
     @command()
-    async def manual_gallery_trigger(ctx, self, days_count=None)
+    async def manual_gallery_trigger(ctx, self, days_count=None):
        await listeners_tasks.gallery_checker(ctx, self, days_count)
         
     @tasks.loop(time=gallery_times)
