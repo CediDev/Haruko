@@ -429,8 +429,8 @@ class listeners_tasks(Cog):
                             await channels[strefa][0].send(str(msg.id) + "," + str(gallery_message.id))
                     else:
                         continue
-                except Exception:
-                    print("e")
+                except Exception as e:
+                    print(e)
     #tety licznika
 
 
@@ -560,6 +560,7 @@ class listeners_tasks(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(listeners_tasks(bot))
+
 
 
 
