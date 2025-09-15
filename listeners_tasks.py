@@ -384,9 +384,11 @@ class listeners_tasks(Cog):
                         e=discord.Embed(title=f"{msg.jump_url}", description=channels[strefa][4],color=discord.Color.yellow())
                         print("3")
                         e.set_image(url=attachment.url)
-                        base = Image.open(fp = path_to_counter).convert("RGBA")
-                        max_width =base.size[0]
                         print("4")
+                        base = Image.open(fp = path_to_counter).convert("RGBA")
+                        print("5")
+                        max_width =base.size[0]
+                        print("6")
                         max_height =base.size[1]
                         txt = Image.new("RGBA", (max_width, max_height), (255,255,255,0))
                         draw = ImageDraw.Draw(txt)
@@ -558,6 +560,7 @@ class listeners_tasks(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(listeners_tasks(bot))
+
 
 
 
