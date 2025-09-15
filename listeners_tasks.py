@@ -215,10 +215,10 @@ class listeners_tasks(Cog):
         
     @command()
     async def manual_gallery_trigger(ctx, self, days_count=None):
-       await listeners_tasks.gallery_checkertest(ctx, self, days_count)
+       await listeners_tasks.gallery_checker(ctx, self, days_count)
         
     @tasks.loop(time=gallery_times)
-    async def gallery_checker(ctx, self, days_count=None):
+    async def gallery_checkertest(ctx, self, days_count=None):
         days_count = int(days_count) if days_count else 15
         
         categories = [
@@ -429,7 +429,7 @@ class listeners_tasks(Cog):
                     else:
                         continue
                 except Exception:
-                    continue
+                    print("e")
     #tety licznika
 
 
@@ -559,6 +559,7 @@ class listeners_tasks(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(listeners_tasks(bot))
+
 
 
 
