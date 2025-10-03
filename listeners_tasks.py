@@ -547,12 +547,15 @@ class listeners_tasks(Cog):
             
     @Cog.listener("on_message")
     async def thread_adder(self, message):
-        if message.channel.id == 412146947412197396 or message.channel.id == 1199385908517032026 or message.channel.id == 532659818071064586 or message.channel.id == 685978311293403206 or message.channel.id == 412147997489627146 or message.channel.id ==1423034216232386670:
+        if message.channel.id == 412146947412197396 or message.channel.id == 1199385908517032026 or message.channel.id == 532659818071064586 or message.channel.id == 685978311293403206 or message.channel.id == 412147997489627146:
             if message.author.id != 1177286820556451880:
                 await message.create_thread(name=f"Komentarze: {message.author.name}", auto_archive_duration = 10080)
         elif message.channel.id == 1171195189205946499:
             if message.author.id != 1177286820556451880:
                 await message.create_thread(name=f"Komentarze:", auto_archive_duration=10080)
+        elif message.channel.id == 1423034216232386670:
+            if message.author.id != 1177286820556451880:
+                await message.create_thread(name=f"Skomentuj!", auto_archive_duration=10080)
 
 
 
@@ -560,6 +563,7 @@ class listeners_tasks(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(listeners_tasks(bot))
+
 
 
 
