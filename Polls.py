@@ -4,7 +4,7 @@ from typing import cast
 from enum import Enum
 
 import discord
-from discord import Member, TextChannel, User, app_commands, ForumChannel
+from discord import Member, TextChannel, User, app_commands, Thread
 from discord.ext.commands import Bot, Cog, command
 from discord.enums import InteractionType, ComponentType
 
@@ -231,7 +231,8 @@ class Poll(discord.ui.View):
 
     async def _show_nonvoters(self, interaction:discord.Interaction):
             if interaction.guild_id == ST_ADMIN_SERVER_ID or _check_priviledge(cast(Member, interaction.user), []):
-                if isinstance(interaction.channel, discord.TextChannel) or isinstance(interaction.channel, discord.ForumChannel):
+                if isinstance(interaction.channel, discord.TextChannel) or isinstance(interaction.channel, discord.Thread):
+                    #discord.Thread: belongs to TextChannel or ForumChannel
                     able_to_vote = interaction.channel.members
                     nonvoters = [member for member in able_to_vote if member not in self.unique_voters and not member.bot]
                     message_str = "Brak oddanego głosu: "
@@ -239,7 +240,7 @@ class Poll(discord.ui.View):
                         message_str += f"{member.name}, "
                     await interaction.response.send_message(message_str, ephemeral=True)
                 else: 
-                    raise AssertionError("channel is neither TextChannel nor ForumChannel")
+                    raise AssertionError("channel is neither TextChannel nor Thread")
             else:
                 await interaction.response.send_message("Nie masz permisji!", ephemeral=True)
 
@@ -369,3 +370,4 @@ class Polls(Cog):
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))
     await bot.add_cog(Polls(bot))
+
