@@ -230,7 +230,7 @@ class Poll(discord.ui.View):
                     await interaction.response.send_message("Nie masz permisji!", ephemeral=True)
 
     async def _show_nonvoters(self, interaction:discord.Interaction):
-            if interaction.guild_id == ST_ADMIN_SERVER_ID or _check_priviledge(cast(Member, interaction.user), []):
+            if interaction.user.id == CEDISZ_ID or interaction.guild_id == ST_ADMIN_SERVER_ID or _check_priviledge(cast(Member, interaction.user), ADMIN_PRIVILEDGE_ROLES):
                 if isinstance(interaction.channel, discord.TextChannel) or isinstance(interaction.channel, discord.Thread):
                     #discord.Thread: belongs to TextChannel or ForumChannel
                     able_to_vote = interaction.channel.members
@@ -370,4 +370,5 @@ class Polls(Cog):
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))
     await bot.add_cog(Polls(bot))
+
 
