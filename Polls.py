@@ -251,6 +251,7 @@ class Polls(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
         self.polls: dict[int, Poll] = {}
+        self.current_session_polls: dict[int, Poll] = {}
         
         sqlite_file_name = "data/selfies_database.db"
         sqlite_url = f"sqlite:///{sqlite_file_name}"
@@ -296,7 +297,7 @@ class Polls(Cog):
     
     
     def _check_if_poll_is_loaded(self, poll_id: int) -> bool:
-        return any(poll.poll_id == poll_id for poll in self.polls.values())
+        return any(poll.poll_id == poll_id for poll in self.current_session_polls.values())
 
     @Cog.listener(name="on_interaction")
     async def catch_poll_interaction(self, interaction: discord.Interaction):
@@ -331,7 +332,7 @@ class Polls(Cog):
                     privacy_button_label=PrivacyButtonText(poll_data.privacy_button_label).value,
                     privacy_button_style=discord.ButtonStyle(poll_data.privacy_button_style),
                 )
-            self.polls[poll_db.message_id] = poll
+                self.polls[poll_db.message_id] = poll
             match button_type:
                 case ButtonType.NON_VOTERS:
                     await poll._show_nonvoters(interaction)
@@ -364,6 +365,7 @@ class Polls(Cog):
             message_full_object: discord.Message = await message.fetch()
             message_id: int = message_full_object.id
             self.polls[message_id] = poll #type:ignore
+            self.current_session_polls[message_id] = poll #type:ignore
             await message.create_thread(name=f"Dyskusja", auto_archive_duration = 10080)
             
 
@@ -377,4 +379,5 @@ class Polls(Cog):
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))
     await bot.add_cog(Polls(bot))
+
 
