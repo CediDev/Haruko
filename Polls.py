@@ -222,11 +222,15 @@ class Poll(discord.ui.View):
                     await interaction.response.send_message("Nie masz permisji!", ephemeral=True)
 
     async def _get_results(self, interaction:discord.Interaction):
+                print("results1")
                 assert isinstance(interaction.user, Member)
+                print("results2")
                 if interaction.user.id == CEDISZ_ID or interaction.user.id == self.author.id or _check_priviledge(interaction.user, ADMIN_PRIVILEDGE_ROLES):
+                    print("results3")
                     self.show_results = not self.show_results  # inverts results visibility setting
                     await interaction.response.edit_message(embeds=[await self.make_embed()], view=self)
                 else:
+                    print("results4")
                     await interaction.response.send_message("Nie masz permisji!", ephemeral=True)
 
     async def _show_nonvoters(self, interaction:discord.Interaction):
@@ -386,6 +390,7 @@ class Polls(Cog):
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))
     await bot.add_cog(Polls(bot))
+
 
 
 
