@@ -301,16 +301,18 @@ class Polls(Cog):
     @Cog.listener(name="on_interaction")
     async def catch_poll_interaction(self, interaction: discord.Interaction):
         if (interaction.type != InteractionType.component):
+            print("interaction is not a component interaction")
             return
         if (interaction.data.get('component_type')) != ComponentType.button.value: # type: ignore
+            print("interaction component_type is not button.value")
             return
         print(interaction.data)
         _poll_id, _button_type, _button_index = interaction.data.get('custom_id').split(':') # type: ignore
         poll_id: int = int(_poll_id)
         button_type: ButtonType = ButtonType(_button_type)
         button_index: int = int(_button_index)
-        
         if self._check_if_poll_is_loaded(poll_id):
+            print("Poll is already loaded")
             return
         else:
             with Session(self.engine) as session:
@@ -375,3 +377,4 @@ class Polls(Cog):
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))
     await bot.add_cog(Polls(bot))
+
