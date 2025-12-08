@@ -357,8 +357,11 @@ class Polls(Cog):
         if _check_priviledge(interaction.user, POLLS_PRIVILEDGE_ROLES) or interaction.guild_id == ST_ADMIN_SERVER_ID:
             embed = discord.Embed(title=tytuł)
             poll = Poll(interaction.id, tytuł, interaction.user, True if typ == "Wybór wielokrotny" else False, options)
-            message: discord.InteractionCallbackResponse = await interaction.response.send_message(embed=embed, view=poll) 
-            self.polls[message.message_id] = poll #type:ignore
+            await interaction.response.send_message(embed=embed, view=poll)
+            message: discord.InteractionMessage = await interaction.original_response()
+            message_full_object: discord.Message = await message.fetch()
+            message_id: int = message_full_object.id
+            self.polls[message_id] = poll #type:ignore
             await message.create_thread(name=f"Dyskusja", auto_archive_duration = 10080)
             
 
@@ -372,6 +375,3 @@ class Polls(Cog):
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))
     await bot.add_cog(Polls(bot))
-
-
-
