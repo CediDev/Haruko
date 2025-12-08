@@ -338,12 +338,16 @@ class Polls(Cog):
             self.polls[poll_db.message_id] = poll
             match button_type:
                 case ButtonType.NON_VOTERS:
+                    print("test_nonvoters")
                     await poll._show_nonvoters(interaction)
                 case ButtonType.PRIVACY:
+                    print("test_privacy")
                     await poll._set_privacy(interaction)
                 case ButtonType.RESULTS:
+                    print("test_results")
                     await poll._get_results(interaction)
                 case ButtonType.OPTION_VOTE:
+                    print("test_option")
                     await poll._option_button(interaction, button_index)
 
     @app_commands.command(name="ankieta", description="Stwórz ankietę")
@@ -382,6 +386,7 @@ class Polls(Cog):
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))
     await bot.add_cog(Polls(bot))
+
 
 
 
