@@ -332,7 +332,7 @@ class Polls(Cog):
                     privacy_button_label=PrivacyButtonText(poll_data.privacy_button_label).value,
                     privacy_button_style=discord.ButtonStyle(poll_data.privacy_button_style),
                 )
-                self.polls[poll_db.message_id] = poll
+            self.polls[poll_db.message_id] = poll
             match button_type:
                 case ButtonType.NON_VOTERS:
                     await poll._show_nonvoters(interaction)
@@ -379,5 +379,6 @@ class Polls(Cog):
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))
     await bot.add_cog(Polls(bot))
+
 
 
