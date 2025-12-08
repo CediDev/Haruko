@@ -316,7 +316,9 @@ class Polls(Cog):
             print("Poll is already loaded")
             return
         else:
+            print("test1")
             with Session(self.engine) as session:
+                print("test2")
                 poll_db = session.get(PollDB, poll_id)
                 assert poll_db, "poll not found in database"
                 poll_data = PollData.model_validate_json(poll_db.poll_data)
@@ -332,6 +334,7 @@ class Polls(Cog):
                     privacy_button_label=PrivacyButtonText(poll_data.privacy_button_label).value,
                     privacy_button_style=discord.ButtonStyle(poll_data.privacy_button_style),
                 )
+            print("test3")
             self.polls[poll_db.message_id] = poll
             match button_type:
                 case ButtonType.NON_VOTERS:
@@ -379,6 +382,7 @@ class Polls(Cog):
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))
     await bot.add_cog(Polls(bot))
+
 
 
 
