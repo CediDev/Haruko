@@ -1,6 +1,7 @@
 from enum import Enum
 from pathlib import Path
 from typing import Literal
+import datetime
 
 CEDISZ_ID = 742425630024400897
 
@@ -12,6 +13,9 @@ PollType = Literal["Wybór jednokrotny", "Wybór wielokrotny"]
 
 IMAGES_DIRECTORY_PATH = Path("images")
 
+BIRTHDAY_TRIGGER_TIME = datetime.time(hour=12)
+
+BIRTHDAY_LIST_UPDATE_TIME = datetime.time(hour=17)
 
 class Extensions(Enum):
     POLLS = "extensions.Polls"
@@ -40,6 +44,8 @@ class RoleId(Enum):
     STARSZY_MOD_ROLE_ID = 1198978337217970285
     STARSZY_MOD_PLUS_ROLE_ID = 1198978337217970286
     ADMIN_ADMIN_SERVER_ROLE_ID = 1198978337247350794
+    BIRTHDAY_ROLE = 1250518611114721312
+    
 
 
 ADMIN_PRIVILEDGE_ROLES = [
@@ -67,6 +73,7 @@ TICKET_CHANNEL_ID = 1213901611836117052
 
 ARCHIVE_CHANNEL_ID = 1211268323875102820
 
+BIRTHDAY_CHANNEL_ID = 628530693386797076
 
 GIFT_REWARDS_PROBABILITIES = {
     "1000 punktów" : 0.50,
@@ -76,3 +83,21 @@ GIFT_REWARDS_PROBABILITIES = {
     "Losowa gra na Steam" : 0.03
 }
 
+
+BIRTHDAY_TEXTS = [
+                    "## 🎉 Hej {}! Dzisiaj mamy szczególny dzień - to urodziny {}!",
+                    "## 🎂 {}, nie zapomnijcie o {}! Dziś obchodzi swoje urodziny!",
+                    "## 🎁 Hej, {}! {} ma dziś urodziny! Ślijcie życzenia!",
+                    "## 🌟 Uwaga, uwaga {}! Dziś świętujemy urodziny {}!"
+                        ]
+
+MONTHS_DICT = {"Styczeń":"01", "Luty":"02", "Marzec":"03", "Kwiecień":"04", "Maj":"05", "Czerwiec":"06",
+                    "Lipiec":"07","Sierpień":"08","Wrzesień":"09","Październik":"10","Listopad":"11","Grudzień":"12"}
+
+MONTHS_DICT_NTD = {1:"Styczeń", 2:"Luty", 3:"Marzec", 4:"Kwiecień", 5:"Maj", 6:"Czerwiec",
+                   7:"Lipiec", 8:"Sierpień", 9:"Wrzesień", 10:"Październik", 11:"Listopad", 12:"Grudzień"}
+
+
+ANNO_BOARD_CHANNEL_ID = 1423034216232386670
+
+BIRTHDAY_LIST_MESSAGE_ID = 123 #placeholder
