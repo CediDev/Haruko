@@ -54,7 +54,7 @@ async def main():
     await bot.load_extension("questy")
     await bot.load_extension("message_reminder")
     await bot.load_extension("reload")
-    await bot.load_extension("birthday")
+    await bot.load_extension("Birthday_rework")
     #await bot.load_extension("addon")
     await bot.start(token=token)
     
@@ -62,4 +62,5 @@ async def main():
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
+
 
