@@ -62,7 +62,7 @@ class Birthday_rework(Cog):
         draw.ellipse((0,0,500,500), fill='green', outline=None)
         transc_avatar = Image.composite(resized_member_avatar, background, mask)
         avatar_img = Image.new("RGBA", birthday_main_img.size, (255, 255, 255, 0))
-        avatar_img.paste(transc_avatar, (1356,70))
+        avatar_img.paste(transc_avatar, (75,468))
         final_birthday_card = Image.alpha_composite(birthday_main_img, avatar_img)
         return final_birthday_card
 
@@ -156,6 +156,31 @@ class Birthday_rework(Cog):
                         await interaction.response.send_message(f"Zmieniono datę twoich urodzin: {birthday_month_day}")
 
 
+    @command()
+    async def manual_birthday_add(self, ctx, user_id:int, dzien:str, miesiac:str):
+        if not ctx.author.id == CEDISZ_ID:
+            return
+        user_data = BirthdayUserData(user_id = user_id,
+                                     birthday_date_str= f"{miesiac}-{dzien}",
+                                     day=int(dzien),
+                                     month=int(miesiac))
+        with Session(self.engine) as session:
+            session.add(user_data)
+            session.commit()
+
+
+    @command()
+    async def manual_birthday_delete(self, ctx, user_id:int):
+        if not ctx.author.id == CEDISZ_ID:
+            return
+        with Session(self.engine) as session:
+            statement = select(BirthdayUserData).where(BirthdayUserData.user_id==user_id)
+            results = session.exec(statement)
+            to_delete = results.one()
+            session.delete(to_delete)
+            session.commit()
+
+
     def birthday_list_maker(self) -> discord.Embed:
         embed = discord.Embed(title="Lista urodzin stratowiczów", color=discord.Color.pink())
         for month in range(1, 13):
@@ -166,9 +191,9 @@ class Birthday_rework(Cog):
                 for user in list_of_users:
                     user_object = self.bot.get_user(user.user_id) #type:ignore
                     assert isinstance(user_object, discord.User)
-                    month_birthdays_str += f"{user_object.display_name}: {user.day}/{user.month}\n"
-            inline = False if month%4 == 1 else True
-            embed.add_field(name=f"{MONTHS_DICT_NTD[month]}", value=month_birthdays_str, inline=inline)
+                    month_birthdays_str += f"{user_object.display_name}: {user.day}\n"
+            #inline = False if month%4 == 1 else True
+            embed.add_field(name=f"{MONTHS_DICT_NTD[month]}", value=month_birthdays_str, inline=True)
         embed.set_footer(text="Chcesz dodać się do listy? Użyj komendy /urodziny")
         return embed
     
@@ -194,8 +219,8 @@ class Birthday_rework(Cog):
     async def birthday_task_loop_start(self, ctx: Context):
         if not ctx.author.id == CEDISZ_ID:
             return
-        Birthday_rework.birthday_list_updater.start()
-        Birthday_rework.birthday_checker.start()
+        Birthday_rework.birthday_list_updater.start(self, ctx)
+        Birthday_rework.birthday_checker.start(self, ctx)
 
     
     @command()
