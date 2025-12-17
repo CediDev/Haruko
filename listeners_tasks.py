@@ -49,9 +49,9 @@ class listeners_tasks(Cog):
         self.id_channel = self.bot.get_channel(1201517637197365319)
         self.gallery_channel = self.bot.get_channel(497361494833496064)
         
-    @command()
+    '''@command()
     async def birthday_manual_trigger(self, ctx):
-        await listeners_tasks.birthday_checker(self, ctx)
+        await listeners_tasks.birthday_checker(self, ctx)'''
     
     @tasks.loop(time=birthday_time)
     async def birthday_checker(ctx, self):
@@ -563,6 +563,7 @@ class listeners_tasks(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(listeners_tasks(bot))
+
 
 
 
