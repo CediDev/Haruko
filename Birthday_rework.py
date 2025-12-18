@@ -71,7 +71,7 @@ class Birthday_rework(Cog):
 
     @tasks.loop(time = BIRTHDAY_TRIGGER_TIME)
     async def birthday_checker(self, ctx):
-        birthday_role_object = discord.utils.get(ctx.guild.roles, id = RoleId.BIRTHDAY_ROLE)
+        birthday_role_object = discord.utils.get(ctx.guild.roles, id = RoleId.BIRTHDAY_ROLE.value)
         birthday_channel_object = self.bot.get_channel(BIRTHDAY_CHANNEL_ID)
         current_date = f"{time.strftime('%m')}-{time.strftime('%d')}"
         list_of_birthday_people = await Birthday_rework.whos_got_birthday_today(self, current_date, False)
@@ -102,7 +102,7 @@ class Birthday_rework(Cog):
     async def birthday_manual_trigger(self, ctx):
         if not ctx.author.id == CEDISZ_ID:
             return
-        birthday_role_object = discord.utils.get(ctx.guild.roles, id = RoleId.BIRTHDAY_ROLE)
+        birthday_role_object = discord.utils.get(ctx.guild.roles, id = RoleId.BIRTHDAY_ROLE.value)
         birthday_channel_object = self.bot.get_channel(BIRTHDAY_CHANNEL_ID)
         current_date = f"{time.strftime('%m')}-{time.strftime('%d')}"
         list_of_birthday_people = await Birthday_rework.whos_got_birthday_today(self, current_date, True)
@@ -234,4 +234,5 @@ class Birthday_rework(Cog):
 
 
 async def setup(bot: Bot):
+
     await bot.add_cog(Birthday_rework(bot))
