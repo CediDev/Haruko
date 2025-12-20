@@ -48,97 +48,7 @@ class listeners_tasks(Cog):
         self.raport_channel = self.bot.get_channel(1188542888989163620)
         self.id_channel = self.bot.get_channel(1201517637197365319)
         self.gallery_channel = self.bot.get_channel(497361494833496064)
-        
-    '''@command()
-    async def birthday_manual_trigger(self, ctx):
-        await listeners_tasks.birthday_checker(self, ctx)'''
-    
-    @tasks.loop(time=birthday_time)
-    async def birthday_checker(ctx, self):
-        birthday_role = discord.utils.get(self.guild.roles, id = 1250518611114721312)
-        urodziny_channel = ctx.bot.get_channel(628530693386797076)
-        td_month = (t.strftime("%m"))
-        td_day = (t.strftime("%d"))
-        date = td_month+"-"+td_day
-        print(date)
-        cur.execute("SELECT user_id FROM birthdays WHERE date = ?", (date,))
-        wynik = cur.fetchall()
-        if wynik is None: 
-            pass
-        else:
-            for user in wynik:
-                if user is not None:
-                    CWD = Path(os.getcwd())
-                    member = ctx.bot.get_user(user[0])
-                    if member is None:
-                        continue
-                    else:
-                        path_to_avatar = str(PurePath(CWD, Path(f"avatar{member.name}.png")))
-                        path_to_main_image = str(PurePath(CWD, Path("main_img.png")))
-                        await member.avatar.save(fp=path_to_avatar)
-                        main_img = Image.open(fp=path_to_main_image).convert("RGBA")
-                        avatar = Image.open(fp=path_to_avatar).convert("RGBA")
-                        resized_avatar = avatar.resize((500, 500))
-                        background = Image.new("RGBA", resized_avatar.size, (0,0,0,0))
-                        mask = Image.new("RGBA", resized_avatar.size, 0)
-                        draw = ImageDraw.Draw(mask)
-                        draw.ellipse((0,0,500,500), fill='green', outline=None)
-                        transc_avatar = Image.composite(resized_avatar, background, mask)
-                        avatar_img = Image.new("RGBA", main_img.size, (255, 255, 255, 0))
-                        avatar_img.paste(transc_avatar, (1356,70))
-                    
-                        out = Image.alpha_composite(main_img, avatar_img)
 
-                        birthday_role = discord.utils.get(self.guild.roles, id = 1250518611114721312)
-                        texts = [f"## 🎉 Hej {birthday_role.mention}! Dzisiaj mamy szczególny dzień - to urodziny {member.mention}!",
-                                 f"## 🎂 {birthday_role.mention}, nie zapomnijcie o {member.mention}! Dziś obchodzi swoje urodziny!",
-                                 f"## 🎁 Hej, {birthday_role.mention}! {member.mention} ma dziś urodziny! Ślijcie życzenia!",
-                                 f"## 🌟 Uwaga, uwaga {birthday_role.mention}! Dziś świętujemy urodziny {member.mention}!"]
-
-                        with BytesIO() as file:
-                            out.save(file, format="PNG")
-                            file.seek(0)
-                            discord_file = discord.File(file, filename="image.png")
-                            await urodziny_channel.send(content = texts[random.randint(0, 3)], file=discord_file)
-                        cur.execute("UPDATE birthdays SET done=? WHERE user_id = ?", (1, user[0],))
-                        con.commit()
-                        os.remove(path_to_avatar)
-
-    @command()
-    async def b_man(ctx, self):
-        CWD = Path(os.getcwd())
-        urodziny_channel = ctx.bot.get_channel(628530693386797076)
-        pluszak = ctx.bot.get_user(215838737102405632)
-        siup = ctx.bot.get_user(158168045506789376)
-        users = [pluszak, siup]
-        for member in users:
-            path_to_avatar = str(PurePath(CWD, Path(f"avatar{member.name}.png")))
-            path_to_main_image = str(PurePath(CWD, Path("main_img.png")))
-            await member.avatar.save(fp=path_to_avatar)
-            main_img = Image.open(fp=path_to_main_image).convert("RGBA")
-            avatar = Image.open(fp=path_to_avatar).convert("RGBA")
-            resized_avatar = avatar.resize((500, 500))
-            background = Image.new("RGBA", resized_avatar.size, (0,0,0,0))
-            mask = Image.new("RGBA", resized_avatar.size, 0)
-            draw = ImageDraw.Draw(mask)
-            draw.ellipse((0,0,500,500), fill='green', outline=None)
-            transc_avatar = Image.composite(resized_avatar, background, mask)
-            avatar_img = Image.new("RGBA", main_img.size, (255, 255, 255, 0))
-            avatar_img.paste(transc_avatar, (1356,70))
-        
-            out = Image.alpha_composite(main_img, avatar_img)
-
-            birthday_role = discord.utils.get(self.guild.roles, id = 1250518611114721312)
-            texts = [f"## 🎉 Hej {birthday_role.mention}! Wczoraj mieliśmy szczególny dzień - urodziny {member.mention}!",
-                        f"## 🎂 {birthday_role.mention}, nie zapomnijcie o {member.mention}! Wczoraj miałx swoje urodziny!",
-                        f"## 🎁 Hej, {birthday_role.mention}! {member.mention} miałx wczoraj urodziny! Ślijcie życzenia!",
-                        f"## 🌟 Uwaga, uwaga {birthday_role.mention}! Wczoraj świętowaliśmy urodziny {member.mention}!"]
-
-            with BytesIO() as file:
-                out.save(file, format="PNG")
-                file.seek(0)
-                discord_file = discord.File(file, filename="image.png")
-                await urodziny_channel.send(content = texts[random.randint(0, 3)], file=discord_file)
 
     
     @tasks.loop(time=time)
@@ -154,41 +64,11 @@ class listeners_tasks(Cog):
             os.remove(copy_path)
 
 
-    @tasks.loop(time=time)
-    async def months_changer(ctx, self):
-        raport_channel = self.bot.get_channel(1188542888989163620)
-        date = t.strftime("%Y-%m-%d %H:%M")
-        if int(t.strftime("%d")) == 1:
-            cur.execute("UPDATE `months` SET month0=month1")
-            cur.execute("UPDATE `months` SET month1=month2")
-            cur.execute("UPDATE `months` SET month2=month3")
-            cur.execute("UPDATE `months` SET month3=month4")
-            cur.execute("UPDATE `months` SET month4=month5")
-            cur.execute("UPDATE `months` SET month5=0")
-            cur.execute("UPDATE `months` SET gallery0=gallery1")
-            cur.execute("UPDATE `months` SET gallery1=gallery2")
-            cur.execute("UPDATE `months` SET gallery2=gallery3")
-            cur.execute("UPDATE `months` SET gallery3=gallery4")
-            cur.execute("UPDATE `months` SET gallery4=gallery5")
-            cur.execute("UPDATE `months` SET gallery5=0")
-            con.commit()
-            await raport_channel.send(
-                f"{date} | Tabele `months` uaktualnione na nowy miesiąc"
-            )
-            listeners_tasks.months_changer.restart(ctx, self)
-        elif int(t.strftime("%d")) != 1:
-            await raport_channel.send(
-                f"{date} | Pętla months_changer wykonała się bez zmiany kolejności kolumn"
-            )
-            listeners_tasks.months_changer.restart(ctx, self)
-
     @command()
     async def loop_start(ctx, self):
         if self.author.id == 742425630024400897:
-            listeners_tasks.months_changer.start(ctx, self)
             listeners_tasks.gallery_checker.start(ctx, self)
             listeners_tasks.db_copy.start(ctx, self)
-            listeners_tasks.birthday_checker.start(ctx, self)
             print("done")
         else:
             self.send("Nie masz permisji nubku")
@@ -196,10 +76,8 @@ class listeners_tasks(Cog):
     @command()
     async def loop_stop(ctx, self):
         if self.author.id == 742425630024400897:
-            listeners_tasks.months_changer.cancel()
             listeners_tasks.gallery_checker.cancel()
             listeners_tasks.db_copy.cancel()
-            listeners_tasks.birthday_checker.cancel()
             print("done")
         else:
             self.send("Nie masz permisji nubku")     
@@ -498,7 +376,7 @@ class listeners_tasks(Cog):
 
     
     
-    @Cog.listener("on_raw_reaction_add")
+    '''@Cog.listener("on_raw_reaction_add")
     async def check_for_x(user, reaction):
         if (str(reaction.emoji) == "❌"
             and (reaction.channel_id == 963476559585505363 or reaction.channel_id == 1199385908517032026)
@@ -520,10 +398,10 @@ class listeners_tasks(Cog):
                     msg.author.id,
                 ),
             )
-            con.commit()
+            con.commit()'''
 
 
-    @Cog.listener("on_raw_reaction_add")
+    '''@Cog.listener("on_raw_reaction_add")
     async def like_act(self, payload: discord.RawReactionActionEvent):
         selfies_channel = self.bot.get_channel(412146947412197396)
         like_emoji = discord.utils.get(self.bot.emojis, name="like")
@@ -532,9 +410,9 @@ class listeners_tasks(Cog):
             cur.execute("SELECT likes FROM players WHERE id = ?", (msg.author.id,))
             current_likes = cur.fetchone()[0]
             cur.execute("UPDATE players SET likes = ? WHERE id = ?", (current_likes+1, msg.author.id,))
-            con.commit()   
+            con.commit()   '''
 
-    @Cog.listener("on_raw_reaction_remove")
+    '''@Cog.listener("on_raw_reaction_remove")
     async def like_remove(self, payload: discord.RawReactionActionEvent):
         selfies_channel = self.bot.get_channel(412146947412197396)
         like_emoji = discord.utils.get(self.bot.emojis, name="like")
@@ -543,7 +421,7 @@ class listeners_tasks(Cog):
             cur.execute("SELECT likes FROM players WHERE id = ?", (msg.author.id,))
             current_likes = cur.fetchone()[0]
             cur.execute("UPDATE players SET likes = ? WHERE id = ?", (current_likes-1, msg.author.id,))
-            con.commit()  
+            con.commit()  '''
             
     @Cog.listener("on_message")
     async def thread_adder(self, message):
@@ -558,6 +436,12 @@ class listeners_tasks(Cog):
                 await message.create_thread(name=f"Skomentuj!", auto_archive_duration=10080)
 
 
+    @Cog.listener("on_message")
+    async def szukam_znajomych_thread_adder(self, message: discord.Message):
+        if message.channel.id == 1232733860245012510:
+            if not message.author.bot:
+                await message.create_thread(name=f"📩 Napisz do {message.author.display_name}:", auto_archive_duration=10080)
+        
 
 
 
