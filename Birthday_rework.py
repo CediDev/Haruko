@@ -1,5 +1,5 @@
 from sqlmodel import Field, SQLModel, select, Session, create_engine, update, delete
-from constants import BIRTHDAY_TRIGGER_TIME, BIRTHDAY_CHANNEL_ID, RoleId, BIRTHDAY_TEXTS, MONTHS_DICT, MONTHS_DICT_NTD, ANNO_BOARD_CHANNEL_ID, BIRTHDAY_LIST_MESSAGE_ID, BIRTHDAY_LIST_UPDATE_TIME, CEDISZ_ID
+from constants import BIRTHDAY_TRIGGER_TIME, RoleId, BIRTHDAY_TEXTS, MONTHS_DICT, MONTHS_DICT_NTD, ANNO_BOARD_CHANNEL_ID, BIRTHDAY_LIST_MESSAGE_ID, BIRTHDAY_LIST_UPDATE_TIME, CEDISZ_ID
 from discord.ext.commands import Cog, Bot, command, Context
 from discord.ext import tasks
 from discord import app_commands
@@ -72,7 +72,7 @@ class Birthday_rework(Cog):
     @tasks.loop(time = BIRTHDAY_TRIGGER_TIME)
     async def birthday_checker(self, ctx):
         birthday_role_object = discord.utils.get(ctx.guild.roles, id = RoleId.BIRTHDAY_ROLE.value)
-        birthday_channel_object = self.bot.get_channel(BIRTHDAY_CHANNEL_ID)
+        birthday_channel_object = self.bot.get_channel(ANNO_BOARD_CHANNEL_ID)
         current_date = f"{time.strftime('%m')}-{time.strftime('%d')}"
         list_of_birthday_people = await Birthday_rework.whos_got_birthday_today(self, current_date, False)
         if list_of_birthday_people is None:
@@ -88,7 +88,10 @@ class Birthday_rework(Cog):
                     final_birthday_card.save(file, format="PNG")
                     file.seek(0)
                     discord_file = discord.File(file, filename="image.png")
-                    await birthday_channel_object.send(content = birthday_text, file=discord_file) #type:ignore
+                    birthday_message = await birthday_channel_object.send(content = birthday_text, file=discord_file) #type:ignore
+                    await birthday_message.create_thread(name="Wyślij życzenia!", auto_archive_duration=4320)
+                    await birthday_message.add_reaction("🎂")
+                    await birthday_message.add_reaction("🎀")
                 os.remove(str(PurePath((Path(os.getcwd())), Path(f"avatar{birthday_member_object.name}.png"))))
                 with Session(self.engine) as session:
                     statement = select(BirthdayUserData).where(BirthdayUserData.user_id == birthday_member_object.id)
@@ -103,7 +106,7 @@ class Birthday_rework(Cog):
         if not ctx.author.id == CEDISZ_ID:
             return
         birthday_role_object = discord.utils.get(ctx.guild.roles, id = RoleId.BIRTHDAY_ROLE.value)
-        birthday_channel_object = self.bot.get_channel(BIRTHDAY_CHANNEL_ID)
+        birthday_channel_object = self.bot.get_channel(ANNO_BOARD_CHANNEL_ID)
         current_date = f"{time.strftime('%m')}-{time.strftime('%d')}"
         list_of_birthday_people = await Birthday_rework.whos_got_birthday_today(self, current_date, True)
         if list_of_birthday_people is None:
@@ -119,7 +122,10 @@ class Birthday_rework(Cog):
                     final_birthday_card.save(file, format="PNG")
                     file.seek(0)
                     discord_file = discord.File(file, filename="image.png")
-                    await birthday_channel_object.send(content = birthday_text, file=discord_file) #type:ignore
+                    birthday_message = await birthday_channel_object.send(content = birthday_text, file=discord_file) #type:ignore
+                    await birthday_message.create_thread(name="Wyślij życzenia!", auto_archive_duration=4320)
+                    await birthday_message.add_reaction("🎂")
+                    await birthday_message.add_reaction("🎀")
                 os.remove(str(PurePath((Path(os.getcwd())), Path(f"avatar{birthday_member_object.name}.png"))))
 
 
@@ -148,12 +154,12 @@ class Birthday_rework(Cog):
                                                      month = int(MONTHS_DICT[miesiąc]))
                         session.add(user_data)
                         session.commit()
-                        await interaction.response.send_message(f"Zapisano datę twoich urodzin: {birthday_month_day}")
+                        await interaction.response.send_message(content=f"Zapisano datę twoich urodzin: {birthday_month_day}", ephemeral=True)
                     elif user_to_update:=results.first(): #this means user's birthday date is already in DB: they want to change it prob
                         user_to_update.birthday_date = birthday_month_day
                         session.commit()
                         session.refresh(user_to_update)
-                        await interaction.response.send_message(f"Zmieniono datę twoich urodzin: {birthday_month_day}")
+                        await interaction.response.send_message(content=f"Zmieniono datę twoich urodzin: {birthday_month_day}", ephemeral=True)
 
 
     @command()
