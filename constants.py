@@ -85,10 +85,8 @@ GIFT_REWARDS_PROBABILITIES = {
 
 
 BIRTHDAY_TEXTS = [
-                    "## 🎉 Hej {}! Dzisiaj mamy szczególny dzień - to urodziny {}!",
-                    "## 🎂 {}, nie zapomnijcie o {}! Dziś obchodzi swoje urodziny!",
-                    "## 🎁 Hej, {}! {} ma dziś urodziny! Ślijcie życzenia!",
-                    "## 🌟 Uwaga, uwaga {}! Dziś świętujemy urodziny {}!"
+                    "## 🎉 Uwaga, dziś świętujemy {} tej osóbki: {}. Wszystkiego najlepszego! Złóżcie życzenia w wątku!",
+                    "## 🎂 Dziś swoje {} obchodzi {}! Złóżcie życzenia w wątku! Najlepszego!",
                         ]
 
 MONTHS_DICT = {"Styczeń":"01", "Luty":"02", "Marzec":"03", "Kwiecień":"04", "Maj":"05", "Czerwiec":"06",
