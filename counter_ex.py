@@ -106,11 +106,13 @@ class counter_ex(Cog):
 
 
     @command()
-    async def selfies(ctx, self, start_date, end_date) -> list:     
+    async def selfies(ctx, self, start_date, end_date) -> list:
+		if not self.author.id == 762068995028549684 or not self.author.id == 742425630024400897:
+			return
         start_date = [int(i) for i in start_date.split("-")]
         end_date = [int(i) for i in end_date.split("-")]
         #day, month, year: 30-12-2024
-        raport_channel = ctx.bot.get_channel(1188542888989163620)
+        OK_user_object = ctx.bot.get_user(762068995028549684)
         atencjusz_role = discord.utils.get(self.guild.roles, name="Atencjusz")
         
         #channelprop, nicks, vids, group_photos, has_no_role
@@ -135,29 +137,29 @@ class counter_ex(Cog):
                         if reaction.emoji == "❌":
                             users = [user async for user in reaction.users()]
                             for single_user in users:
-                                if single_user.id == 742425630024400897:
+                                if single_user.id == 742425630024400897 or single_user.id == 762068995028549684:
                                     forced_break = True
                         elif reaction.emoji == "🎬":
                             users = [user async for user in reaction.users()]
                             for muser in users:
-                                if muser.id == 742425630024400897:
+                                if muser.id == 742425630024400897 or single_user.id == 762068995028549684:
                                     channel.vids.append(msg.author.id)
                         elif reaction.emoji == "🎀":
                             users = [user async for user in reaction.users()]
                             for muser in users:
-                                if muser.id == 742425630024400897:  
+                                if muser.id == 742425630024400897 or single_user.id == 762068995028549684:  
                                     channel.group_photos.append(msg.jump_url)
                                     forced_break = True
                         elif reaction.emoji == "2️⃣":
                             users = [user async for user in reaction.users()]
                             for muser in users:
-                                if muser.id == 742425630024400897:
+                                if muser.id == 742425630024400897 or single_user.id == 762068995028549684:
                                     channel.doubles.append(msg.author.id)
 
                         elif reaction.emoji == "3️⃣":
                             users = [user async for user in reaction.users()]
                             for muser in users: 
-                                if muser.id == 742425630024400897:
+                                if muser.id == 742425630024400897 or single_user.id == 762068995028549684:
                                     channel.triples.append(msg.author.id)
 
                     
@@ -185,11 +187,11 @@ class counter_ex(Cog):
             lista = [i for i in channel.nicks.items()]
             await counter_ex.command_maker(self, lista, f"{channel_name}")
             for url in channel.group_photos:
-                await raport_channel.send("Zdjęcie grupowe: "+url)
+                await OK_user_object.send("Zdjęcie grupowe: "+url)
             for i in list(set(channel.has_no_role)):
                 try:
                     member = discord.utils.get(self.guild.members, id = i)
-                    await raport_channel.send("Brak rangi Atencjusz:"+member.mention)
+                    await OK_user_object.send("Brak rangi Atencjusz:"+member.mention)
                 except AttributeError:
                     continue
             if channel_name == "selfies_channel":
@@ -201,6 +203,7 @@ class counter_ex(Cog):
     
     async def command_maker(self, id, reason:str):
         selfies_bot_channel = self.bot.get_channel(1188542888989163620)
+		OK_user_object = self.bot.get_user(762068995028549684)
         points = {}
         
         selfie_value = 75 if reason == "selfies_plus_channel" else 50
@@ -221,7 +224,7 @@ class counter_ex(Cog):
             command_string = f".punkty-dodaj {key}"
             for i in value:
                 command_string = command_string + f" <@{i}>"
-            await selfies_bot_channel.send(content = "`"+command_string+"`" + " " +reason)
+            await OK_user_object.send(content = "`"+command_string+"`" + " " +reason)
             await asyncio.sleep(2)
 
 
@@ -456,3 +459,4 @@ async def setup(bot: Bot):
             else:
                 list_two = channels[channel][1]
         return [list_one, list_two] '''
+
