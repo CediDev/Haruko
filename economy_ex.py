@@ -63,13 +63,13 @@ class economy_ex(Cog):
     
     @Cog.listener("on_message")
     async def sticky_mess_selfies(self, message):
-        selfies_channel = self.bot.get_channel(762068995028549684)
+        selfies_channel = self.bot.get_channel(412146947412197396)
+        OK_user = message.guild.get_member(742425630024400897)
         selfies_bot_channel = self.bot.get_channel(1179884652522115102)
         self.raport_channel = self.bot.get_channel(1188542888989163620)
         selfies_for_noobs = self.bot.get_channel(1199385908517032026)
         sticky_message_channel = self.bot.get_channel(1203338155617554504)
         if message.channel.id == selfies_for_noobs.id and message.author.id != 1177286820556451880: 
-            OK_user = message.guild.get_member(742425630024400897)
             embed = discord.Embed(title = "Witaj na kanale #selfies!",description=f"Za wysłane zdjęcia otrzymasz punkty oraz rolę Atencjusz za pierwsze z nich. Po zdobyciu 10 poziomu na bocie Bruno uzyskasz dostęp do kanału {selfies_channel.jump_url} (#selfies_plus), gdzie można zdobyć więcej punktów! W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour=discord.Colour.pink())
             try:
                 async for msg in sticky_message_channel.history(limit=1):
@@ -936,4 +936,5 @@ class economy_ex(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(economy_ex(bot))
+
 
