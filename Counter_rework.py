@@ -41,7 +41,7 @@ class Counter_rework(Cog):
         SQLModel.metadata.create_all(self.engine)
 
     
-    async def command_maker(self, channel_instance:Photo_channel, author:discord.User) -> None:
+    async def command_maker(self, channel_instance:Photo_channel) -> None:
         points_list: dict[int, list[int]] = {} #dict[points, list[user_id]]
         match channel_instance.channel_object.id:
             case Selfies_Channels_IDs.SELFIES_PLUS_CHANNEL_ID.value:
@@ -59,14 +59,14 @@ class Counter_rework(Cog):
             command_string = f".punkty-dodaj {points_value}"
             for user_id in list_of_users_ids:
                 command_string = command_string + f" <@{user_id}>"
-            await author.send(content = "`"+command_string+"`"+f"Punkty za {channel_instance.channel_object.name}")
+            await self.bot.get_user(OPIEKUN_KA_SELFIES_ID).send(content = "`"+command_string+"`"+f"Punkty za {channel_instance.channel_object.name}") #type:ignore
             await self.bot.get_channel(Selfies_Channels_IDs.SELFIES_RAPORT_CHANNEL_ID.value).send(content = "`"+command_string+"`"+f"Punkty za {channel_instance.channel_object.name}") #type:ignore
             await asyncio.sleep(2)
 
 
     @command()
     async def count_selfies(self, ctx: Context, starting_date: str, ending_date: str) -> None:
-        if not ctx.author.id == OPIEKUN_KA_SELFIES_ID or ctx.author.id == CEDISZ_ID:
+        if ctx.author.id != OPIEKUN_KA_SELFIES_ID or ctx.author.id != CEDISZ_ID:
             return
         start_day, start_month, start_year = [int(i) for i in starting_date.split("-")]
         end_day, end_month, end_year = [int(i) for i in ending_date.split("-")]
@@ -139,7 +139,6 @@ async def setup(bot: Bot):
 
 
             
-
 
 
 
