@@ -41,7 +41,7 @@ class Counter_rework(Cog):
         SQLModel.metadata.create_all(self.engine)
 
     
-    async def command_maker(self, channel_instance:Photo_channel) -> None:
+    async def command_maker(self, channel_instance:Photo_channel, author:discord.User | discord.Member) -> None:
         points_list: dict[int, list[int]] = {} #dict[points, list[user_id]]
         match channel_instance.channel_object.id:
             case Selfies_Channels_IDs.SELFIES_PLUS_CHANNEL_ID.value:
@@ -59,7 +59,7 @@ class Counter_rework(Cog):
             command_string = f".punkty-dodaj {points_value}"
             for user_id in list_of_users_ids:
                 command_string = command_string + f" <@{user_id}>"
-            await self.bot.get_user(OPIEKUN_KA_SELFIES_ID).send(content = "`"+command_string+"`"+f"Punkty za {channel_instance.channel_object.name}") #type:ignore
+            await author.send(content = "`"+command_string+"`"+f"Punkty za {channel_instance.channel_object.name}") #type:ignore
             await self.bot.get_channel(Selfies_Channels_IDs.SELFIES_RAPORT_CHANNEL_ID.value).send(content = "`"+command_string+"`"+f"Punkty za {channel_instance.channel_object.name}") #type:ignore
             await asyncio.sleep(2)
 
@@ -130,7 +130,7 @@ class Counter_rework(Cog):
                             if is_there_OK(reaction):
                                 photo_channel._users[message_author_object.id].selfies_number += 2
                                 continue                
-            await Counter_rework.command_maker(self, photo_channel)
+            await Counter_rework.command_maker(self, photo_channel, ctx.author)
             
 
 
