@@ -73,13 +73,13 @@ class Counter_rework(Cog):
         atencjusz_role_object = discord.utils.get(ctx.guild.roles, name="Atencjusz") #type:ignore
         photo_channels = {
             "selfies_channel": Photo_channel(
-                channel_object = self.bot.get_channel(SELFIES_CHANNEL_ID), #type:ignore
+                channel_object = self.bot.get_channel(Selfies_Channels_IDs.SELFIES_CHANNEL_ID.value), #type:ignore
                 _users = {},
                 group_photos = [],
                 users_without_atencjusz_role = [],
             ),
             "selfies_plus_channel": Photo_channel(
-                channel_object = self.bot.get_channel(SELFIES_PLUS_CHANNEL_ID), #type:ignore
+                channel_object = self.bot.get_channel(Selfies_Channels_IDs.SELFIES_PLUS_CHANNEL_ID.value), #type:ignore
                 _users = {},
                 group_photos = [],
                 users_without_atencjusz_role = [],
@@ -136,4 +136,5 @@ class Counter_rework(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(Counter_rework(bot))
+
 
