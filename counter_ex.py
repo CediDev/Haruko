@@ -34,7 +34,7 @@ class counter_ex(Cog):
         
     
 
-    
+    '''
     @command()
     async def count(ctx, self, month:int):
         if self.author.id == 742425630024400897:
@@ -90,7 +90,7 @@ class counter_ex(Cog):
         f = open("output.txt", "a")
         list = [i for i in gal_names.items()]
         await counter_ex.command_maker(self, list, " Punkty za galerię")
-        return gal_names      
+        return gal_names'''      
         
     
     @dataclass
@@ -225,7 +225,7 @@ class counter_ex(Cog):
             await asyncio.sleep(2)
 
 
-    
+    '''
     @app_commands.command(name="daily", description="Komenda dla Opiekunów Kanału do automatycznego zliczania daily - tworzy gotową komendę z punktami.")
     @app_commands.describe(points="Ilość punktów do rozdania. Wpisz proszę kolejne poziomy oddzielone slashem, np. '50/75/100/125/150'", 
                            date="Data daily (format DD-MM-RRRR). W przypadku braku konkretnej daty, automatycznie wybierze dzisiejszą.", 
@@ -295,7 +295,7 @@ class counter_ex(Cog):
             for i in value:
                 command_string = command_string + f" <@{i}>"
             whole_command_string += f"`{command_string}`\n"       
-        await channel.send(content = f"{whole_command_string}")
+        await channel.send(content = f"{whole_command_string}")'''
                         
 					
             
@@ -332,7 +332,7 @@ class counter_ex(Cog):
                             daily_streak[message.author.id] = 1
         await counter_ex.daily_command_maker(self, interaction.channel, points, daily_streak)'''
 
-
+	'''
     @command()
     async def agumo_count(self, ctx, month:int, day:int):
         if ctx.author.id == 742425630024400897 or ctx.author.id == 206488012786237440:
@@ -350,14 +350,8 @@ class counter_ex(Cog):
             for key, item in members_list.items():
                 list_string = list_string + f"`{key}`: {item} klików\n"
             
-            await ctx.author.send(list_string) 
+            await ctx.author.send(list_string)''' 
 
-    
-    @Cog.listener("on_message")
-    async def przywitaj_się_thread_maker(self, message):
-        welcome_channel = self.bot.get_channel(412202170549796874)
-        if message.channel.id == welcome_channel.id and not message.author.bot:
-            await message.create_thread(name="Witamy w naszych progach!!! ♡", auto_archive_duration=1440)
 
 
 
@@ -456,3 +450,4 @@ async def setup(bot: Bot):
             else:
                 list_two = channels[channel][1]
         return [list_one, list_two] '''
+
