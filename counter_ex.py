@@ -227,7 +227,8 @@ class counter_ex(Cog):
 
 	
 		
-	@command()
+	
+    @command()
     async def selfies_dbg(ctx, self, start_date, end_date):
         if not self.author.id == 742425630024400897:
             return
@@ -306,7 +307,7 @@ class counter_ex(Cog):
                 channel.nicks[user_id][0] -= channel.nicks[user_id][3]
                 channel.nicks[user_id][0] -= channel.nicks[user_id][4]
             lista = [i for i in channel.nicks.items()]
-            await counter_ex.command_maker(ctx, lista, f"{channel_name}")
+            await counter_ex.command_maker_dbg(ctx, lista, f"{channel_name}")
             for url in channel.group_photos:
                 await OK_user_object.send("Zdjęcie grupowe: "+url) #type:ignore
             for i in list(set(channel.has_no_role)):
@@ -322,7 +323,7 @@ class counter_ex(Cog):
         return [list_one, list_two]      
     
     
-    async def command_maker(self, id, reason:str):
+    async def command_maker_dbg(self, id, reason:str):
         OK_user_object = self.bot.get_user(742425630024400897)
         points = {}
         
