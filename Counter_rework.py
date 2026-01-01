@@ -66,7 +66,7 @@ class Counter_rework(Cog):
 
     @command()
     async def count_selfies(self, ctx: Context, starting_date: str, ending_date: str) -> None:
-        if ctx.author.id != OPIEKUN_KA_SELFIES_ID or ctx.author.id != CEDISZ_ID:
+        if not ctx.author.id == OPIEKUN_KA_SELFIES_ID or ctx.author.id == CEDISZ_ID:
             return
         start_day, start_month, start_year = [int(i) for i in starting_date.split("-")]
         end_day, end_month, end_year = [int(i) for i in ending_date.split("-")]
@@ -136,10 +136,3 @@ class Counter_rework(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(Counter_rework(bot))
-
-
-            
-
-
-
-
