@@ -225,7 +225,127 @@ class counter_ex(Cog):
             await OK_user_object.send(content = "`"+command_string+"`" + " " +reason) #type:ignore
             await asyncio.sleep(2)
 
+	
+		
+	@command()
+    async def selfies_dbg(ctx, self, start_date, end_date):
+        if not self.author.id == 742425630024400897:
+            return
+        start_date = [int(i) for i in start_date.split("-")]
+        end_date = [int(i) for i in end_date.split("-")]
+        #day, month, year: 30-12-2024
+        OK_user_object = ctx.bot.get_user(742425630024400897)
+        atencjusz_role = discord.utils.get(self.guild.roles, name="Atencjusz")
+        #channelprop, nicks, vids, group_photos, has_no_role
+        channels = {
+            "selfies_channel" : counter_ex.schannel(ctx.bot.get_channel(1199385908517032026), {}, [], [], [], [], []), #type:ignore
+            "selfies_plus_channel" : counter_ex.schannel(ctx.bot.get_channel(412146947412197396), {}, [], [], [], [], []) #type:ignore
+            }
+        list_one=[]
+        list_two=[]
 
+        for channel_name in channels:
+            channel = channels[channel_name]
+            async for msg in channel.id.history(
+                limit = 5000,
+                after=datetime.datetime(start_date[2], start_date[1], start_date[0]),
+                before=datetime.datetime(end_date[2], end_date[1], end_date[0]),
+            ):
+                member = self.guild.get_member(msg.author.id)
+                if member:
+                    forced_break = False
+                    for reaction in msg.reactions:
+                        if reaction.emoji == "❌":
+                            users = [user async for user in reaction.users()]
+                            for single_user in users:
+                                if single_user.id == 762068995028549684:
+                                    forced_break = True
+                        elif reaction.emoji == "🎬":
+                            users = [user async for user in reaction.users()]
+                            for muser in users:
+                                if muser.id == 762068995028549684:
+                                    channel.vids.append(msg.author.id)
+                        elif reaction.emoji == "🎀":
+                            users = [user async for user in reaction.users()]
+                            for muser in users:
+                                if muser.id == 762068995028549684:  
+                                    channel.group_photos.append(msg.jump_url)
+                                    forced_break = True
+                        elif reaction.emoji == "2️⃣":
+                            users = [user async for user in reaction.users()]
+                            for muser in users:
+                                if muser.id == 762068995028549684:
+                                    channel.doubles.append(msg.author.id)
+
+                        elif reaction.emoji == "3️⃣":
+                            users = [user async for user in reaction.users()]
+                            for muser in users: 
+                                if muser.id == 762068995028549684:
+                                    channel.triples.append(msg.author.id)
+
+                    
+                    if forced_break == True:
+                        continue
+                    if msg.author.id not in channel.nicks:
+                        channel.nicks[msg.author.id] = [1, 0, 0, 0, 0]
+                        #[selfies, vids, galleries, doubles, triples]
+                    elif msg.author.id in channel.nicks:
+                        channel.nicks[msg.author.id][0] += 1
+                    try:
+                        if atencjusz_role not in msg.author.roles:  #type:ignore
+                            channel.has_no_role.append(msg.author.id)
+                    except AttributeError:
+                        continue    
+            for user_id, k in channel.nicks.items():    
+                user_id = int(user_id)
+                #[selfies, vids, galleries, doubles, triples]           
+                channel.nicks[user_id][1] = int(channel.vids.count(user_id))
+                channel.nicks[user_id][0] -= channel.nicks[user_id][1]
+                channel.nicks[user_id][3] = int(channel.doubles.count(user_id))
+                channel.nicks[user_id][4] = int(channel.triples.count(user_id))
+                channel.nicks[user_id][0] -= channel.nicks[user_id][3]
+                channel.nicks[user_id][0] -= channel.nicks[user_id][4]
+            lista = [i for i in channel.nicks.items()]
+            await counter_ex.command_maker(ctx, lista, f"{channel_name}")
+            for url in channel.group_photos:
+                await OK_user_object.send("Zdjęcie grupowe: "+url) #type:ignore
+            for i in list(set(channel.has_no_role)):
+                try:
+                    member = discord.utils.get(self.guild.members, id = i)
+                    await OK_user_object.send("Brak rangi Atencjusz:"+member.mention) #type:ignore
+                except AttributeError:
+                    continue
+            if channel_name == "selfies_channel":
+                list_one = channel.nicks
+            else:
+                list_two = channel.nicks
+        return [list_one, list_two]      
+    
+    
+    async def command_maker(self, id, reason:str):
+        OK_user_object = self.bot.get_user(742425630024400897)
+        points = {}
+        
+        selfie_value = 75 if reason == "selfies_plus_channel" else 50
+        vid_value = 100 if reason == "selfies_plus_channel" else 75
+        gal_value = 200
+        double_value = 150 if reason == "selfies_plus_channel" else 100
+        triple_value = 225 if reason == "selfies_plus_channel" else 150
+        
+        for i in id:
+            pointquan = int(i[1][0] * selfie_value + i[1][1] * vid_value + i[1][2]*gal_value + i[1][3]*double_value + i[1][4]*triple_value)
+            points[i[0]] = pointquan
+        new_dict = { }
+        for keys in points:
+            new_dict[points[keys]] = [ ]
+        for keys in points:
+            new_dict[points[keys]].append(keys)
+        for key, value in new_dict.items():
+            command_string = f".punkty-dodaj {key}"
+            for i in value:
+                command_string = command_string + f" <@{i}>"
+            await OK_user_object.send(content = "`"+command_string+"`" + " " +reason) #type:ignore
+            await asyncio.sleep(2)
     
     '''@app_commands.command(name="daily", description="Komenda dla Opiekunów Kanału do automatycznego zliczania daily - tworzy gotową komendę z punktami.")
     @app_commands.describe(points="Ilość punktów do rozdania. Wpisz proszę kolejne poziomy oddzielone slashem, np. '50/75/100/125/150'", 
@@ -449,4 +569,5 @@ async def setup(bot: Bot):
             else:
                 list_two = channels[channel][1]
         return [list_one, list_two] '''
+
 
