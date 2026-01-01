@@ -204,7 +204,7 @@ class Birthday_rework(Cog):
             )
             list_of_birthday_people = list(session.exec(birthday_query).all())
             for user in list_of_birthday_people:
-                ctx.author.send(f"{user.birthday_date_str} {user.day} {user.month} {user.already_triggered}")
+                await ctx.author.send(f"{user.birthday_date_str} {user.day} {user.month} {user.already_triggered}")
 
 
 
@@ -263,3 +263,4 @@ class Birthday_rework(Cog):
 async def setup(bot: Bot):
 
     await bot.add_cog(Birthday_rework(bot))
+
