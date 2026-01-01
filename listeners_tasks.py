@@ -64,6 +64,12 @@ class listeners_tasks(Cog):
             os.remove(copy_path)
 
 
+    @Cog.listener("on_message")
+    async def przywitaj_się_thread_maker(self, message):
+        welcome_channel = self.bot.get_channel(412202170549796874)
+        if message.channel.id == welcome_channel.id and not message.author.bot:
+            await message.create_thread(name="Witamy w naszych progach!!! ♡", auto_archive_duration=1440)
+
     @command()
     async def loop_start(ctx, self):
         if self.author.id == 742425630024400897:
@@ -447,6 +453,7 @@ class listeners_tasks(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(listeners_tasks(bot))
+
 
 
 
