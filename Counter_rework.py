@@ -50,7 +50,7 @@ class Counter_rework(Cog):
             case Selfies_Channels_IDs.SELFIES_CHANNEL_ID.value:
                 points_for_selfie = Selfies_Points.SELFIE.value
                 points_for_video = Selfies_Points.VIDEO.value
-        for user in Photo_channel._users.values():
+        for user in channel_instance._users.values():
             user.points_sum = (points_for_selfie * user.selfies_number) + (points_for_video * user.videos_number)
             if user.points_sum not in points_list:
                 points_list[user.points_sum] = []
@@ -113,21 +113,21 @@ class Counter_rework(Cog):
                 for reaction in message.reactions:
                     match reaction.emoji:
                         case "🎬":
-                            if is_there_OK(reaction):
+                            if await is_there_OK(reaction):
                                 photo_channel._users[message_author_object.id].videos_number += 1
                                 photo_channel._users[message_author_object.id].selfies_number -= 1
                                 continue
                         case "🎀":
-                            if is_there_OK(reaction):
+                            if await is_there_OK(reaction):
                                 photo_channel.group_photos.append(message.jump_url)
                                 photo_channel._users[message_author_object.id].selfies_number -= 1
                                 continue
                         case "2️⃣":
-                            if is_there_OK(reaction):
+                            if await is_there_OK(reaction):
                                 photo_channel._users[message_author_object.id].selfies_number += 1
                                 continue
                         case "3️⃣":
-                            if is_there_OK(reaction):
+                            if await is_there_OK(reaction):
                                 photo_channel._users[message_author_object.id].selfies_number += 2
                                 continue                
             await Counter_rework.command_maker(self, photo_channel, ctx.author)
@@ -136,5 +136,6 @@ class Counter_rework(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(Counter_rework(bot))
+
 
 
