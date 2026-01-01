@@ -194,7 +194,7 @@ class Birthday_rework(Cog):
 
 
     @command()
-    async def birthday_test(self, ctx, day, month):
+    async def birthday_test(self, ctx, day:int, month:int):
         if not ctx.author.id == CEDISZ_ID:
             return
         with Session(self.engine) as session:
