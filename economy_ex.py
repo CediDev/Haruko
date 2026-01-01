@@ -35,6 +35,20 @@ class economy_ex(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
+    @command()
+    async def urodziny_lista(self, ctx):
+        if not ctx.author.id == 742425630024400897:
+            return
+        cur.execute(f"SELECT * FROM birthdays ORDER BY date ASC")
+        items = cur.fetchall()     
+        users_string = ""   
+        for record in items:
+            date_list = [i for i in record[1].split("-")]
+            user_name = record[0]
+            users_string = users_string + f"`{user_name}`: {date_list[0]}.{date_list[1]}\n"
+        await ctx.author.send(users_string)
+            
+    
     dupa = "dupa"
 
     def archiver(func):
@@ -936,6 +950,7 @@ class economy_ex(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(economy_ex(bot))
+
 
 
 
