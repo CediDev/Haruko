@@ -34,8 +34,8 @@ class counter_ex(Cog):
         
     
 
-    '''
-    @command()
+    
+    '''@command()
     async def count(ctx, self, month:int):
         if self.author.id == 742425630024400897:
             raport_channel = self.bot.get_channel(1188542888989163620)
@@ -60,11 +60,11 @@ class counter_ex(Cog):
                 for x in gal_names.items():
                     print(f"Nick: {x[0]}, Num: {x[1]}", file=f)
             await raport_channel.send(file = discord.File(FilePath))
-            os.remove(FilePath)
+            os.remove(FilePath)'''
 
                 
 
-    async def gallery(ctx, self, month):
+    '''async def gallery(ctx, self, month):
         ending_month = 1 if month == 12 else month +1
         selfies_channel = self.bot.get_channel(412146947412197396)
         gal_names = {}
@@ -90,12 +90,12 @@ class counter_ex(Cog):
         f = open("output.txt", "a")
         list = [i for i in gal_names.items()]
         await counter_ex.command_maker(self, list, " Punkty za galerię")
-        return gal_names'''      
+        return gal_names      '''
         
     
     @dataclass
     class schannel:
-        id:int
+        id:discord.TextChannel
         nicks: dict
         vids:list
         group_photos:list
@@ -106,17 +106,18 @@ class counter_ex(Cog):
 
 
     @command()
-    async def selfies(ctx, self, start_date, end_date) -> list:     
+    async def selfies(ctx, self, start_date, end_date):
+        if not self.author.id == 762068995028549684:
+            return
         start_date = [int(i) for i in start_date.split("-")]
         end_date = [int(i) for i in end_date.split("-")]
         #day, month, year: 30-12-2024
-        raport_channel = ctx.bot.get_channel(1188542888989163620)
+        OK_user_object = ctx.bot.get_user(762068995028549684)
         atencjusz_role = discord.utils.get(self.guild.roles, name="Atencjusz")
-        
         #channelprop, nicks, vids, group_photos, has_no_role
         channels = {
-            "selfies_channel" : counter_ex.schannel(self.bot.get_channel(1199385908517032026), {}, [], [], [], [], []),
-            "selfies_plus_channel" : counter_ex.schannel(self.bot.get_channel(412146947412197396), {}, [], [], [], [], [])
+            "selfies_channel" : counter_ex.schannel(ctx.bot.get_channel(1199385908517032026), {}, [], [], [], [], []), #type:ignore
+            "selfies_plus_channel" : counter_ex.schannel(ctx.bot.get_channel(412146947412197396), {}, [], [], [], [], []) #type:ignore
             }
         list_one=[]
         list_two=[]
@@ -135,29 +136,29 @@ class counter_ex(Cog):
                         if reaction.emoji == "❌":
                             users = [user async for user in reaction.users()]
                             for single_user in users:
-                                if single_user.id == 742425630024400897:
+                                if single_user.id == 762068995028549684:
                                     forced_break = True
                         elif reaction.emoji == "🎬":
                             users = [user async for user in reaction.users()]
                             for muser in users:
-                                if muser.id == 742425630024400897:
+                                if muser.id == 762068995028549684:
                                     channel.vids.append(msg.author.id)
                         elif reaction.emoji == "🎀":
                             users = [user async for user in reaction.users()]
                             for muser in users:
-                                if muser.id == 742425630024400897:  
+                                if muser.id == 762068995028549684:  
                                     channel.group_photos.append(msg.jump_url)
                                     forced_break = True
                         elif reaction.emoji == "2️⃣":
                             users = [user async for user in reaction.users()]
                             for muser in users:
-                                if muser.id == 742425630024400897:
+                                if muser.id == 762068995028549684:
                                     channel.doubles.append(msg.author.id)
 
                         elif reaction.emoji == "3️⃣":
                             users = [user async for user in reaction.users()]
                             for muser in users: 
-                                if muser.id == 742425630024400897:
+                                if muser.id == 762068995028549684:
                                     channel.triples.append(msg.author.id)
 
                     
@@ -169,7 +170,7 @@ class counter_ex(Cog):
                     elif msg.author.id in channel.nicks:
                         channel.nicks[msg.author.id][0] += 1
                     try:
-                        if atencjusz_role not in msg.author.roles:
+                        if atencjusz_role not in msg.author.roles:  #type:ignore
                             channel.has_no_role.append(msg.author.id)
                     except AttributeError:
                         continue    
@@ -183,13 +184,13 @@ class counter_ex(Cog):
                 channel.nicks[user_id][0] -= channel.nicks[user_id][3]
                 channel.nicks[user_id][0] -= channel.nicks[user_id][4]
             lista = [i for i in channel.nicks.items()]
-            await counter_ex.command_maker(self, lista, f"{channel_name}")
+            await counter_ex.command_maker(ctx, lista, f"{channel_name}")
             for url in channel.group_photos:
-                await raport_channel.send("Zdjęcie grupowe: "+url)
+                await OK_user_object.send("Zdjęcie grupowe: "+url) #type:ignore
             for i in list(set(channel.has_no_role)):
                 try:
                     member = discord.utils.get(self.guild.members, id = i)
-                    await raport_channel.send("Brak rangi Atencjusz:"+member.mention)
+                    await OK_user_object.send("Brak rangi Atencjusz:"+member.mention) #type:ignore
                 except AttributeError:
                     continue
             if channel_name == "selfies_channel":
@@ -200,7 +201,7 @@ class counter_ex(Cog):
     
     
     async def command_maker(self, id, reason:str):
-        selfies_bot_channel = self.bot.get_channel(1188542888989163620)
+        OK_user_object = self.bot.get_user(762068995028549684)
         points = {}
         
         selfie_value = 75 if reason == "selfies_plus_channel" else 50
@@ -221,12 +222,12 @@ class counter_ex(Cog):
             command_string = f".punkty-dodaj {key}"
             for i in value:
                 command_string = command_string + f" <@{i}>"
-            await selfies_bot_channel.send(content = "`"+command_string+"`" + " " +reason)
+            await OK_user_object.send(content = "`"+command_string+"`" + " " +reason) #type:ignore
             await asyncio.sleep(2)
 
 
-    '''
-    @app_commands.command(name="daily", description="Komenda dla Opiekunów Kanału do automatycznego zliczania daily - tworzy gotową komendę z punktami.")
+    
+    '''@app_commands.command(name="daily", description="Komenda dla Opiekunów Kanału do automatycznego zliczania daily - tworzy gotową komendę z punktami.")
     @app_commands.describe(points="Ilość punktów do rozdania. Wpisz proszę kolejne poziomy oddzielone slashem, np. '50/75/100/125/150'", 
                            date="Data daily (format DD-MM-RRRR). W przypadku braku konkretnej daty, automatycznie wybierze dzisiejszą.", 
                            channel="ID kanału do policzenia daily. Jeśli nie podasz konkretnego kanału, wybierze ten, na którym wpisujesz komendę.",
@@ -253,14 +254,6 @@ class counter_ex(Cog):
             for day in dates:
                 async for message in channel.history(before=day+datetime.timedelta(days=1), after=day-datetime.timedelta(seconds=1), limit=20000):
                     if "#daily" in message.content:
-                        '''for reaction in message.reactions:
-                            if reaction.emoji == "❌":
-                                users = [user async for user in reaction.users()]
-                                for single_user in users:
-                                    if OK_role in single_user.roles:
-                                        forced_break = True
-                        if forced_break == True:
-                            continue'''
                         if (message.author.id not in users_with_daily) and (abs((dates[0].day - message.created_at.replace(tzinfo=None).day)) <= 2):
                             users_with_daily[message.author.id] = message.created_at.replace(tzinfo=None)
                             daily_streak[message.author.id] = 1
@@ -332,8 +325,8 @@ class counter_ex(Cog):
                             daily_streak[message.author.id] = 1
         await counter_ex.daily_command_maker(self, interaction.channel, points, daily_streak)'''
 
-	'''
-    @command()
+
+    '''@command()
     async def agumo_count(self, ctx, month:int, day:int):
         if ctx.author.id == 742425630024400897 or ctx.author.id == 206488012786237440:
             klik_channel = ctx.bot.get_channel(1076081025114964008)
@@ -350,8 +343,7 @@ class counter_ex(Cog):
             for key, item in members_list.items():
                 list_string = list_string + f"`{key}`: {item} klików\n"
             
-            await ctx.author.send(list_string)''' 
-
+            await ctx.author.send(list_string) '''
 
 
 

@@ -361,7 +361,7 @@ class listeners_tasks(Cog):
                 if message.author.id != 1177286820556451880:
                     dupa = cur.execute("SELECT selfies FROM players WHERE id = ?", (message.author.id,)).fetchone()[0]
                     if dupa == 0:
-                        await self.bot.get_channel(1179884652522115102).send(f"Rola atencjusz do przyznania: {message.author.mention}, {dupa} selfies, {message.author.id}")
+                        await self.bot.get_user(762068995028549684).send(f"Rola atencjusz do przyznania: {message.author.mention}, {dupa} selfies, {message.author.id}")
                     
                     like_emoji = discord.utils.get(self.bot.emojis, name="like")
                     await message.add_reaction(str(like_emoji))
