@@ -34,16 +34,19 @@ class Birthday_rework(Cog):
         SQLModel.metadata.create_all(self.engine)
     
 
-    async def whos_got_birthday_today(self, date:str, manual:bool) -> list[int]:
+    async def whos_got_birthday_today(self, day:int, month:int, manual:bool) -> list[int]:
         with Session(self.engine) as session:
             if not manual:
                 birthday_query = select(BirthdayUserData.user_id).where(
-                    BirthdayUserData.birthday_date_str == date,
+                    BirthdayUserData.day == day,
+                    BirthdayUserData.month == month,
                     BirthdayUserData.already_triggered == 0
                     )
             else:
                 birthday_query = select(BirthdayUserData.user_id).where(
-                    BirthdayUserData.birthday_date_str == date)
+                    BirthdayUserData.day == day,
+                    BirthdayUserData.month == month
+                )
             list_of_birthday_people = list(session.exec(birthday_query).all())
             return list_of_birthday_people #type:ignore
         
@@ -73,8 +76,9 @@ class Birthday_rework(Cog):
     async def birthday_checker(self, ctx):
         birthday_role_object = discord.utils.get(ctx.guild.roles, id = RoleId.BIRTHDAY_ROLE.value)
         birthday_channel_object = self.bot.get_channel(ANNO_BOARD_CHANNEL_ID)
-        current_date = f"{time.strftime('%m')}-{time.strftime('%d')}"
-        list_of_birthday_people = await Birthday_rework.whos_got_birthday_today(self, current_date, False)
+        day = int(time.strftime('%d'))
+        month = int(time.strftime('%m'))
+        list_of_birthday_people = await Birthday_rework.whos_got_birthday_today(self, day, month, False)
         if list_of_birthday_people is None:
             return
         else:
@@ -107,8 +111,9 @@ class Birthday_rework(Cog):
             return
         birthday_role_object = discord.utils.get(ctx.guild.roles, id = RoleId.BIRTHDAY_ROLE.value)
         birthday_channel_object = self.bot.get_channel(ANNO_BOARD_CHANNEL_ID)
-        current_date = f"{time.strftime('%m')}-{time.strftime('%d')}"
-        list_of_birthday_people = await Birthday_rework.whos_got_birthday_today(self, current_date, True)
+        day = int(time.strftime('%d'))
+        month = int(time.strftime('%m'))
+        list_of_birthday_people = await Birthday_rework.whos_got_birthday_today(self, day, month, False)
         if list_of_birthday_people is None:
             return
         else:
@@ -146,7 +151,8 @@ class Birthday_rework(Cog):
                         session.delete(to_delete)
                         session.commit()
                 elif opcja == "dodaj datę urodzenia" and dzień is not None and miesiąc is not None:
-                    birthday_month_day = f"{MONTHS_DICT[miesiąc]}-{dzień}"
+                    dzień_str = f"0{dzień}" if dzień < 10 else str(dzień)
+                    birthday_month_day = f"{MONTHS_DICT[miesiąc]}-{dzień_str}"
                     if not results.first():    #this means user's birthday date is not in DB 
                         user_data = BirthdayUserData(user_id = interaction.user.id,
                                                      birthday_date_str = birthday_month_day,
@@ -185,6 +191,21 @@ class Birthday_rework(Cog):
             to_delete = results.one()
             session.delete(to_delete)
             session.commit()
+
+
+    @command()
+    async def birthday_test(self, ctx, day, month):
+        if not ctx.author.id == CEDISZ_ID:
+            return
+        with Session(self.engine) as session:
+            birthday_query = select(BirthdayUserData).where(
+                    BirthdayUserData.day == day,
+                    BirthdayUserData.month == month
+            )
+            list_of_birthday_people = list(session.exec(birthday_query).all())
+            for user in list_of_birthday_people:
+                ctx.author.send(f"{user.birthday_date_str} {user.day} {user.month} {user.already_triggered}")
+
 
 
     def birthday_list_maker(self) -> discord.Embed:
