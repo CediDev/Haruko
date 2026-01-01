@@ -130,7 +130,7 @@ class Counter_rework(Cog):
                             if is_there_OK(reaction):
                                 photo_channel._users[message_author_object.id].selfies_number += 2
                                 continue                
-            await Counter_rework.command_maker(self, photo_channel)
+            await Counter_rework.command_maker(self, photo_channel, ctx.author)
             
 
 
@@ -139,6 +139,7 @@ async def setup(bot: Bot):
 
 
             
+
 
 
 
