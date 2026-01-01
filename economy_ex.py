@@ -46,7 +46,9 @@ class economy_ex(Cog):
             date_list = [i for i in record[1].split("-")]
             user_name = record[0]
             users_string = users_string + f"`{user_name}`: {date_list[0]}.{date_list[1]}\n"
-        await ctx.author.send(users_string)
+            if len(users_string) > 1000:
+                await ctx.author.send(users_string)
+                users_string = ""
             
     
     dupa = "dupa"
@@ -950,6 +952,7 @@ class economy_ex(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(economy_ex(bot))
+
 
 
 
