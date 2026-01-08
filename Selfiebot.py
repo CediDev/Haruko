@@ -50,7 +50,7 @@ async def main():
     await bot.load_extension("counter_ex")
     await bot.load_extension("Polls")
     await bot.load_extension("instances_archive")
-    await bot.load_extension("listeners_tasks")
+    await bot.load_extension("Listeners_rework")
     await bot.load_extension("Counter_rework")
     await bot.load_extension("message_reminder")
     await bot.load_extension("reload")
