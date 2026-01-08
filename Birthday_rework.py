@@ -49,7 +49,7 @@ class Birthday_rework(Cog):
                 )
             list_of_birthday_people = list(session.exec(birthday_query).all())
             if day == 28 and month == 2:
-                if int(time.strftime("%Y"))%4 == 0:
+                if int(time.strftime("%Y"))%4 != 0:
                     unlucky_birthday_query = select(BirthdayUserData.user_id).where(
                         BirthdayUserData.day == 29,
                         BirthdayUserData.month == 2
@@ -274,4 +274,5 @@ class Birthday_rework(Cog):
 async def setup(bot: Bot):
 
     await bot.add_cog(Birthday_rework(bot))
+
 
