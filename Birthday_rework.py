@@ -48,6 +48,14 @@ class Birthday_rework(Cog):
                     BirthdayUserData.month == month
                 )
             list_of_birthday_people = list(session.exec(birthday_query).all())
+            if day == 28 and month == 2:
+                if int(time.strftime("%Y"))%4 == 0:
+                    unlucky_birthday_query = select(BirthdayUserData.user_id).where(
+                        BirthdayUserData.day == 29,
+                        BirthdayUserData.month == 2
+                    )
+                    list_of_unlucky_birthday_people = list(session.exec(unlucky_birthday_query).all())
+                    list_of_birthday_people += list_of_unlucky_birthday_people
             return list_of_birthday_people #type:ignore
         
     
@@ -153,7 +161,8 @@ class Birthday_rework(Cog):
                 elif opcja == "dodaj datę urodzenia" and dzień is not None and miesiąc is not None:
                     dzień_str = f"0{dzień}" if dzień < 10 else str(dzień)
                     birthday_month_day = f"{MONTHS_DICT[miesiąc]}-{dzień_str}"
-                    if not results.first():    #this means user's birthday date is not in DB 
+                    user_to_update = results.first()
+                    if not user_to_update:    #this means user's birthday date is not in DB 
                         user_data = BirthdayUserData(user_id = interaction.user.id,
                                                      birthday_date_str = birthday_month_day,
                                                      day = dzień,
@@ -161,7 +170,7 @@ class Birthday_rework(Cog):
                         session.add(user_data)
                         session.commit()
                         await interaction.response.send_message(content=f"Zapisano datę twoich urodzin: {birthday_month_day}", ephemeral=True)
-                    elif user_to_update:=results.first(): #this means user's birthday date is already in DB: they want to change it prob
+                    elif user_to_update: #this means user's birthday date is already in DB: they want to change it prob
                         user_to_update.birthday_date = birthday_month_day
                         session.commit()
                         session.refresh(user_to_update)

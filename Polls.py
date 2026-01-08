@@ -326,7 +326,7 @@ class Polls(Cog):
                 poll_db = session.get(PollDB, poll_id)
                 assert poll_db, "poll not found in database"
                 poll_data = PollData.model_validate_json(poll_db.poll_data)
-                options_votes_map: dict[int, list[User | Member]] = {option_index: [interaction.guild.get_member(voter_id) for voter_id in votes] for option_index, votes in poll_data.option_votes_map.items()} #type: ignore
+                options_votes_map: dict[int, list[User | Member]] = {option_index: [(member:=interaction.guild.get_member(voter_id)) for voter_id in votes if member] for option_index, votes in poll_data.option_votes_map.items()} #type: ignore
                 poll = Poll(
                     poll_id=poll_db.poll_id, #type:ignore
                     title=poll_data.title,
