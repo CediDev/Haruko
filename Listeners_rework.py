@@ -8,7 +8,7 @@ import asyncio
 
 
 
-class BirthdayUserData(SQLModel, table=True):
+class UserData(SQLModel, table=True):
     user_id: int | None = Field(default=None, primary_key=True)
     selfies_number: int
     pupile_photos_number: int
@@ -72,4 +72,5 @@ class Listeners_rework(Cog):
 
 async def setup(bot: Bot):
     print('{:-^50}'.format('loading extension Polls'))
+
     await bot.add_cog(Listeners_rework(bot))
