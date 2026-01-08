@@ -171,7 +171,9 @@ class Birthday_rework(Cog):
                         session.commit()
                         await interaction.response.send_message(content=f"Zapisano datę twoich urodzin: {birthday_month_day}", ephemeral=True)
                     elif user_to_update: #this means user's birthday date is already in DB: they want to change it prob
-                        user_to_update.birthday_date = birthday_month_day
+                        user_to_update.birthday_date_str = birthday_month_day
+                        user_to_update.day = dzień
+                        user_to_update.month = int(MONTHS_DICT[miesiąc])
                         session.commit()
                         session.refresh(user_to_update)
                         await interaction.response.send_message(content=f"Zmieniono datę twoich urodzin: {birthday_month_day}", ephemeral=True)
