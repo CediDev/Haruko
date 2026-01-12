@@ -65,12 +65,23 @@ class Listeners_rework(Cog):
 
     @Cog.listener("on_message")
     async def przywitaj_się_thread_creator(self, message:discord.Message):
+        if message.author.bot:
+            return
         welcome_channel = self.bot.get_channel(412202170549796874)
-        if message.channel.id == welcome_channel.id and not message.author.bot:
+        if message.channel.id == welcome_channel.id:
             await message.create_thread(name="Witamy w naszych progach!!! ♡", auto_archive_duration=1440)
+
+    
+    @Cog.listener("on_message")
+    async def selfie_like_reaction_add(self, message:discord.Message):
+        if message.author.bot:
+            return
+        if message.channel.id == Selfies_Channels_IDs.SELFIES_CHANNEL_ID.value or message.channel.id == Selfies_Channels_IDs.SELFIES_PLUS_CHANNEL_ID.value:
+            like_emoji = discord.utils.get(self.bot.emojis, name="like")
+            await message.add_reaction(str(like_emoji))
+
 
 
 async def setup(bot: Bot):
-    print('{:-^50}'.format('loading extension Polls'))
-
     await bot.add_cog(Listeners_rework(bot))
+
