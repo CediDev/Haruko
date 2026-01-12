@@ -228,8 +228,10 @@ class Birthday_rework(Cog):
                 list_of_users = list(session.exec(users_query).all())
                 for user in list_of_users:
                     user_object = self.bot.get_user(user.user_id) #type:ignore
-                    assert isinstance(user_object, discord.User)
-                    month_birthdays_str += f"{user_object.display_name}: {user.day}\n"
+                    if user_object:
+                        month_birthdays_str += f"{user_object.display_name}: {user.day}\n"
+                    elif not user_object:
+                        continue
             #inline = False if month%4 == 1 else True
             embed.add_field(name=f"{MONTHS_DICT_NTD[month]}", value=month_birthdays_str, inline=True)
         embed.set_footer(text="Chcesz dodać się do listy? Użyj komendy /urodziny")
@@ -274,5 +276,6 @@ class Birthday_rework(Cog):
 async def setup(bot: Bot):
 
     await bot.add_cog(Birthday_rework(bot))
+
 
 
