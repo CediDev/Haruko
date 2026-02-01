@@ -37,9 +37,15 @@ class Listeners_rework(Cog):
         if message.author.bot:
             return
         match message.channel.id:
+            case Other_Photo_Channels_IDs.MEMY_CHANNEL_ID.value:
+                await message.create_thread(name=f"Komentarze: {message.author.name}", auto_archive_duration = 10080)
             case Other_Photo_Channels_IDs.KUCHNIA_CHANNEL_ID.value:
                 await message.create_thread(name=f"Komentarze: {message.author.name}", auto_archive_duration = 10080)
             case Other_Photo_Channels_IDs.NIESFORNE_CHANNEL_ID.value:
+                await message.create_thread(name=f"Komentarze: {message.author.name}", auto_archive_duration = 10080)
+            case Other_Photo_Channels_IDs.TWORCZOSC_CHANNEL_ID.value:
+                await message.create_thread(name=f"Komentarze: {message.author.name}", auto_archive_duration = 10080)
+            case Other_Photo_Channels_IDs.PUPILE_CHANNEL_ID.value:
                 await message.create_thread(name=f"Komentarze: {message.author.name}", auto_archive_duration = 10080)
             case Selfies_Channels_IDs.SELFIES_CHANNEL_ID.value:
                 await message.create_thread(name=f"Komentarze: {message.author.name}", auto_archive_duration = 10080)
@@ -84,4 +90,3 @@ class Listeners_rework(Cog):
 
 async def setup(bot: Bot):
     await bot.add_cog(Listeners_rework(bot))
-
