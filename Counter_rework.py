@@ -13,6 +13,7 @@ class Photo_user:
     user_object: discord.User | discord.Member
     selfies_number: int
     videos_number: int
+    event_ph_number: int
     points_sum: int
 
 @dataclass
@@ -47,11 +48,13 @@ class Counter_rework(Cog):
             case Selfies_Channels_IDs.SELFIES_PLUS_CHANNEL_ID.value:
                 points_for_selfie = Selfies_Plus_Points.SELFIE.value
                 points_for_video = Selfies_Plus_Points.VIDEO.value
+                points_event = Selfies_Plus_Points.EVENT.value
             case Selfies_Channels_IDs.SELFIES_CHANNEL_ID.value:
                 points_for_selfie = Selfies_Points.SELFIE.value
                 points_for_video = Selfies_Points.VIDEO.value
+                points_event = Selfies_Points.EVENT.value
         for user in channel_instance._users.values():
-            user.points_sum = (points_for_selfie * user.selfies_number) + (points_for_video * user.videos_number)
+            user.points_sum = (points_for_selfie * user.selfies_number) + (points_for_video * user.videos_number) + (points_event * user.event_ph_number)
             if user.points_sum not in points_list:
                 points_list[user.points_sum] = []
             points_list[user.points_sum].append(user.user_object.id)
@@ -105,6 +108,7 @@ class Counter_rework(Cog):
                         user_object = message_author_object,
                         selfies_number = 0,
                         videos_number = 0,
+                        event_ph_number = 0,
                         points_sum = 0
                     )
                 if atencjusz_role_object not in message_author_object.roles:
@@ -122,6 +126,10 @@ class Counter_rework(Cog):
                                 photo_channel.group_photos.append(message.jump_url)
                                 photo_channel._users[message_author_object.id].selfies_number -= 1
                                 continue
+                        case "❤️":
+                            if await is_there_OK(reaction):
+                                photo_channel._users[message_author_object.id].event_ph_number += 1
+                                continue
                         case "2️⃣":
                             if await is_there_OK(reaction):
                                 photo_channel._users[message_author_object.id].selfies_number += 1
@@ -129,7 +137,7 @@ class Counter_rework(Cog):
                         case "3️⃣":
                             if await is_there_OK(reaction):
                                 photo_channel._users[message_author_object.id].selfies_number += 2
-                                continue                
+                                continue
             await Counter_rework.command_maker(self, photo_channel, ctx.author)
             
 

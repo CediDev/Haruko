@@ -52,10 +52,12 @@ class RoleId(Enum):
 class Selfies_Plus_Points(Enum):
     SELFIE = 75
     VIDEO = 100
+    EVENT = 375
     
 class Selfies_Points(Enum):
     SELFIE = 50
     VIDEO = 75
+    EVENT = 250
 
 
 ADMIN_PRIVILEDGE_ROLES = [
