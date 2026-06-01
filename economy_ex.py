@@ -104,7 +104,7 @@ class economy_ex(Cog):
         selfies_channel = self.bot.get_channel(1199385908517032026)
         sticky_message_channel_plus = self.bot.get_channel(1510912878452932678)
         if message.channel.id == selfies_plus_channel.id and message.author.id != 1177286820556451880: 
-            embed = discord.Embed(title = "Witaj na kanale #selfies!", description=f"Zapraszamy do wzięcia udziału w evencie i losowaniu -> https://discord.com/channels/211261411119202305/412146947412197396/1510889307622215801 🎊 W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour = discord.Colour.pink())
+            embed = discord.Embed(title = "Witaj na kanale #selfies_plus!", description=f"Zapraszamy do wzięcia udziału w evencie i losowaniu -> https://discord.com/channels/211261411119202305/412146947412197396/1510889307622215801 🎊 W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour = discord.Colour.pink())
             #embed = discord.Embed(title = "Witaj na kanale #selfies!",description=f"Za wysłane zdjęcia otrzymasz punkty oraz odznakę Atencjusz za pierwsze z nich. Po zdobyciu 5 poziomu na bocie Bruno uzyskasz dostęp do kanału {selfies_channel.jump_url} (#selfies-plus), gdzie można zdobyć więcej punktów! W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour=discord.Colour.pink())
             try:
                 async for msg in sticky_message_channel_plus.history(limit=1):
