@@ -79,25 +79,45 @@ class economy_ex(Cog):
     
     @Cog.listener("on_message")
     async def sticky_mess_selfies(self, message):
-        selfies_channel = self.bot.get_channel(412146947412197396)
+        selfies_plus_channel = self.bot.get_channel(412146947412197396)
         OK_user = message.guild.get_member(762068995028549684)
-        selfies_bot_channel = self.bot.get_channel(1179884652522115102)
-        self.raport_channel = self.bot.get_channel(1188542888989163620)
-        selfies_for_noobs = self.bot.get_channel(1199385908517032026)
+        selfies_channel = self.bot.get_channel(1199385908517032026)
         sticky_message_channel = self.bot.get_channel(1203338155617554504)
-        if message.channel.id == selfies_for_noobs.id and message.author.id != 1177286820556451880: 
-            embed = discord.Embed(title = "Witaj na kanale #selfies!",description=f"Za wysłane zdjęcia otrzymasz punkty oraz odznakę Atencjusz za pierwsze z nich. Po zdobyciu 5 poziomu na bocie Bruno uzyskasz dostęp do kanału {selfies_channel.jump_url} (#selfies-plus), gdzie można zdobyć więcej punktów! W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour=discord.Colour.pink())
+        if message.channel.id == selfies_channel.id and message.author.id != 1177286820556451880: 
+            #embed = discord.Embed(title = "Witaj na kanale #selfies!",description=f"Za wysłane zdjęcia otrzymasz punkty oraz odznakę Atencjusz za pierwsze z nich. Po zdobyciu 5 poziomu na bocie Bruno uzyskasz dostęp do kanału {selfies_channel.jump_url} (#selfies-plus), gdzie można zdobyć więcej punktów! W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour=discord.Colour.pink())
+            embed = discord.Embed(title = "Witaj na kanale #selfies!", description=f"Zapraszamy do wzięcia udziału w evencie i losowaniu -> https://discord.com/channels/211261411119202305/1199385908517032026/1510887090118725652 🎊 W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour = discord.Colour.pink())
             try:
                 async for msg in sticky_message_channel.history(limit=1):
                     id = msg.content
-                    mess_to_delete = await selfies_for_noobs.fetch_message(int(id))
+                    mess_to_delete = await selfies_channel.fetch_message(int(id))
                     await mess_to_delete.delete()
             except Exception:
                 pass
-            sticky_mess = await selfies_for_noobs.send(embed=embed)
+            sticky_mess = await selfies_channel.send(embed=embed)
             await sticky_message_channel.send(sticky_mess.id)
     
+
     @Cog.listener("on_message")
+    async def sticky_mess_selfies_plus(self, message):
+        selfies_plus_channel = self.bot.get_channel(412146947412197396)
+        OK_user = message.guild.get_member(762068995028549684)
+        selfies_channel = self.bot.get_channel(1199385908517032026)
+        sticky_message_channel_plus = self.bot.get_channel(1510912878452932678)
+        if message.channel.id == selfies_plus_channel.id and message.author.id != 1177286820556451880: 
+            embed = discord.Embed(title = "Witaj na kanale #selfies!", description=f"Zapraszamy do wzięcia udziału w evencie i losowaniu -> https://discord.com/channels/211261411119202305/412146947412197396/1510889307622215801 🎊 W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour = discord.Colour.pink())
+            #embed = discord.Embed(title = "Witaj na kanale #selfies!",description=f"Za wysłane zdjęcia otrzymasz punkty oraz odznakę Atencjusz za pierwsze z nich. Po zdobyciu 5 poziomu na bocie Bruno uzyskasz dostęp do kanału {selfies_channel.jump_url} (#selfies-plus), gdzie można zdobyć więcej punktów! W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour=discord.Colour.pink())
+            try:
+                async for msg in sticky_message_channel_plus.history(limit=1):
+                    id = msg.content
+                    mess_to_delete = await selfies_plus_channel.fetch_message(int(id))
+                    await mess_to_delete.delete()
+            except Exception:
+                pass
+            sticky_mess = await selfies_plus_channel.send(embed=embed)
+            await sticky_message_channel_plus.send(sticky_mess.id)
+
+
+    '''@Cog.listener("on_message")
     async def sticky_mess_anno(self, message):
         if message.channel.id == 1216764806162415726 and message.author.id != 1177286820556451880:
             id_channel = self.bot.get_channel(1216770475988881498) 
@@ -113,7 +133,7 @@ class economy_ex(Cog):
             except Exception:
                 pass
             sticky_mess = await anno_channel.send(embed=embed)
-            await id_channel.send(sticky_mess.id)
+            await id_channel.send(sticky_mess.id)'''
     
     '''@Cog.listener()
     async def on_message(self, message):
