@@ -84,8 +84,8 @@ class economy_ex(Cog):
         selfies_channel = self.bot.get_channel(1199385908517032026)
         sticky_message_channel = self.bot.get_channel(1203338155617554504)
         if message.channel.id == selfies_channel.id and message.author.id != 1177286820556451880: 
-            #embed = discord.Embed(title = "Witaj na kanale #selfies!",description=f"Za wysłane zdjęcia otrzymasz punkty oraz odznakę Atencjusz za pierwsze z nich. Po zdobyciu 5 poziomu na bocie Bruno uzyskasz dostęp do kanału {selfies_channel.jump_url} (#selfies-plus), gdzie można zdobyć więcej punktów! W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour=discord.Colour.pink())
-            embed = discord.Embed(title = "Witaj na kanale #selfies!", description=f"Zapraszamy do wzięcia udziału w evencie i losowaniu -> https://discord.com/channels/211261411119202305/1199385908517032026/1510887090118725652 🎊 W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour = discord.Colour.pink())
+            embed = discord.Embed(title = "Witaj na kanale #selfies!",description=f"Za wysłane zdjęcia otrzymasz punkty oraz odznakę Atencjusz za pierwsze z nich. Po zdobyciu 5 poziomu na bocie Bruno uzyskasz dostęp do kanału {selfies_channel.jump_url} (#selfies-plus), gdzie można zdobyć więcej punktów! W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour=discord.Colour.pink())
+            #embed = discord.Embed(title = "Witaj na kanale #selfies!", description=f"Zapraszamy do wzięcia udziału w evencie i losowaniu -> https://discord.com/channels/211261411119202305/1199385908517032026/1510887090118725652 🎊 W przypadku pytań lub problemów pisz proszę do Opiekunki Kanału: {OK_user.mention}", colour = discord.Colour.pink())
             try:
                 async for msg in sticky_message_channel.history(limit=1):
                     id = msg.content
@@ -97,7 +97,7 @@ class economy_ex(Cog):
             await sticky_message_channel.send(sticky_mess.id)
     
 
-    @Cog.listener("on_message")
+    '''@Cog.listener("on_message")
     async def sticky_mess_selfies_plus(self, message):
         selfies_plus_channel = self.bot.get_channel(412146947412197396)
         OK_user = message.guild.get_member(762068995028549684)
@@ -114,7 +114,7 @@ class economy_ex(Cog):
             except Exception:
                 pass
             sticky_mess = await selfies_plus_channel.send(embed=embed)
-            await sticky_message_channel_plus.send(sticky_mess.id)
+            await sticky_message_channel_plus.send(sticky_mess.id)'''
 
 
     '''@Cog.listener("on_message")
