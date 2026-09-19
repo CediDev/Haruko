@@ -358,7 +358,7 @@ class economy_ex(Cog):
             print(rec_string)
 
     
-    @app_commands.command(name="prezent", description="Służy do odbioru jednorazowego prezentu dla nowych użytkowników!")
+    '''@app_commands.command(name="prezent", description="Służy do odbioru jednorazowego prezentu dla nowych użytkowników!")
     async def prezent_response(self, interaction:discord.Interaction):
         cur.execute("SELECT user_id FROM prezenty WHERE user_id = ?", (interaction.user.id,))
         if cur.fetchone() is not None:     
@@ -390,7 +390,7 @@ class economy_ex(Cog):
                     embed.set_image(url="attachment://image.png")
                     await interaction.response.send_message(embed=embed, file=discord_file)
                 cur.execute("INSERT INTO prezenty VALUES(?)", (interaction.user.id,))
-                con.commit()
+                con.commit()'''
     
     @command()
     async def birth_delete(ctx, self, id):
