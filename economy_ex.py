@@ -427,14 +427,24 @@ class economy_ex(Cog):
     async def get_slash_command(self, ctx, name:str):
         if not ctx.author.id == 742425630024400897:
             return
-        print(await ctx.bot.tree.get_command(name))
+        print(ctx.bot.tree.get_command(name))
 
     
     @command()
     async def get_slash_commands(self, ctx, guild_id = None):
         if not ctx.author.id == 742425630024400897:
             return
-        print(await ctx.bot.tree.get_commands(guild_id))
+        print(ctx.bot.tree.get_commands())
+
+
+    @command()
+    async def fetch_slash_commands(self, ctx, guild_id = None):
+        if not ctx.author.id == 742425630024400897:
+            return
+        if guild_id:
+            print(await ctx.bot.tree.fetch_commands(guild_id))
+        else:
+            print(await ctx.bot.tree.fetch_commands())
 
     
     '''@command()
