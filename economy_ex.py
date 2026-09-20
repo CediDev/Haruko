@@ -393,34 +393,34 @@ class economy_ex(Cog):
                 con.commit()'''
     
     @command()
-    async def birth_delete(ctx, self, id):
+    async def birth_delete(self, ctx, id):
         cur.execute("DELETE FROM prezenty WHERE user_id = ?", (id,))        
         con.commit()
     
     
     @command()
-    async def sync(ctx, self):
+    async def sync(self, ctx):
         if not ctx.author.id == 742425630024400897:
             return
         print("done")
-        await self.bot.tree.sync(guild = discord.Object(id = 211261411119202305))
-        await self.bot.tree.sync(guild = discord.Object(id = 963476559585505360))
+        await ctx.bot.tree.sync(guild = discord.Object(id = 211261411119202305))
+        await ctx.bot.tree.sync(guild = discord.Object(id = 963476559585505360))
 
     
     @command()
-    async def global_sync(ctx, self):
+    async def global_sync(self, ctx):
         if not ctx.author.id == 742425630024400897:
             return
         print("done")
-        await self.bot.tree.sync()
+        await ctx.bot.tree.sync()
 
     
     @command()
-    async def remove_slash_command(ctx, self, name:str):
+    async def remove_slash_command(self, ctx, name:str):
         if not ctx.author.id == 742425630024400897:
             return
         print("done")
-        await self.bot.tree.remove_command(name)
+        await ctx.bot.tree.remove_command(name)
 
     
     '''@command()
