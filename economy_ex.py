@@ -423,6 +423,20 @@ class economy_ex(Cog):
         await ctx.bot.tree.remove_command(name)
 
     
+    @command()
+    async def get_slash_command(self, ctx, name:str):
+        if not ctx.author.id == 742425630024400897:
+            return
+        print(await ctx.bot.tree.get_command(name))
+
+    
+    @command()
+    async def get_slash_commands(self, ctx, guild_id = None):
+        if not ctx.author.id == 742425630024400897:
+            return
+        print(await ctx.bot.tree.get_commands(guild_id))
+
+    
     '''@command()
     async def test_sync(ctx, self):
         print("done")
