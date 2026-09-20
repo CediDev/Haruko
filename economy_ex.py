@@ -438,10 +438,10 @@ class economy_ex(Cog):
 
     
     @command()
-    async def nuke(self, ctx, guild):
+    async def nuke(self, ctx):
         if not ctx.author.id == 742425630024400897:
             return
-        ctx.bot.tree.clear_commands(guild)
+        ctx.bot.tree.clear_commands(guild=None)
 
     
     @command()
