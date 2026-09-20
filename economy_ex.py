@@ -420,7 +420,7 @@ class economy_ex(Cog):
         if not ctx.author.id == 742425630024400897:
             return
         print("done")
-        await ctx.bot.tree.remove_command(name)
+        ctx.bot.tree.remove_command(name)
 
     
     @command()
@@ -436,7 +436,14 @@ class economy_ex(Cog):
             return
         print(ctx.bot.tree.get_commands())
 
+    
+    @command()
+    async def nuke(self, ctx):
+        if not ctx.author.id == 742425630024400897:
+            return
+        ctx.bot.tree.clear_commands()
 
+    
     @command()
     async def fetch_slash_commands(self, ctx, guild_id = None):
         if not ctx.author.id == 742425630024400897:
