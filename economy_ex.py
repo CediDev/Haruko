@@ -400,19 +400,38 @@ class economy_ex(Cog):
     
     @command()
     async def sync(ctx, self):
+        if not ctx.author.id == 742425630024400897:
+            return
         print("done")
         await self.bot.tree.sync(guild = discord.Object(id = 211261411119202305))
         await self.bot.tree.sync(guild = discord.Object(id = 963476559585505360))
 
+    
     @command()
+    async def global_sync(ctx, self):
+        if not ctx.author.id == 742425630024400897:
+            return
+        print("done")
+        await self.bot.tree.sync()
+
+    
+    @command()
+    async def remove_slash_command(ctx, self, name:str):
+        if not ctx.author.id == 742425630024400897:
+            return
+        print("done")
+        await self.bot.tree.remove_command(name)
+
+    
+    '''@command()
     async def test_sync(ctx, self):
         print("done")
-        await self.bot.tree.sync(guild= discord.Object(id=963476559585505360))
+        await self.bot.tree.sync(guild= discord.Object(id=963476559585505360))'''
 
 
 
 
-    @command()
+    '''@command()
     async def komendy(ctx, self):
         embed1 = discord.Embed(
             title="Ekonomia i profile", description="", colour=discord.Colour.pink()
@@ -468,7 +487,7 @@ class economy_ex(Cog):
         embed4.add_field(name="- **kup** `profil/licznik` `id`", value = "*Kupuje licznik/profil o danym ID (do sprawdzenia w sklepie)*",
                          inline=False)
         embed4.add_field(name="- **set** `licznik/profil` `ID`", value="Ustawia dany licznik lub profil, o ile masz go zakupionego.")
-        await self.author.send(embeds=[embed1, embed2, embed3, embed4])
+        await self.author.send(embeds=[embed1, embed2, embed3, embed4])'''
 
     '''async def streak_counter(channel, user):
         today_date = str(
