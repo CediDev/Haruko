@@ -28,7 +28,7 @@ import re
 
 logging.basicConfig(level="INFO")
 
-intents = discord.Intents.all()
+intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
@@ -42,7 +42,7 @@ async def main():
 
 
     bot = Bot(
-        command_prefix="s!", intents=intents, activity=discord.Game(name="Liczę..."))
+        command_prefix="s!", intents=intents)
     bot.polls_instances_list = []    
     bot.mess_reminder_instances_list = []
     bot.remove_command("help")
