@@ -303,7 +303,7 @@ class Polls(Cog):
     def _check_if_poll_is_loaded(self, poll_id: int) -> bool:
         return any(poll.poll_id == poll_id for poll in self.current_session_polls.values())
 
-    @Cog.listener(name="on_interaction")
+    '''@Cog.listener(name="on_interaction")
     async def catch_poll_interaction(self, interaction: discord.Interaction):
         if (interaction.type != InteractionType.component):
             print("interaction is not a component interaction")
@@ -352,7 +352,7 @@ class Polls(Cog):
                     await poll._get_results(interaction)
                 case ButtonType.OPTION_VOTE:
                     print("test_option")
-                    await poll._option_button(interaction, button_index)
+                    await poll._option_button(interaction, button_index)'''
 
     @app_commands.command(name="ankieta", description="Stwórz ankietę")
     @app_commands.describe(tytuł="Wybierz tytuł ankiety",
