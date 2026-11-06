@@ -12,7 +12,7 @@ from sqlmodel import Field, SQLModel, select, Session, create_engine, update
 
 
 from constants import (
-    ADMIN_PRIVILEDGE_ROLES,
+    POLLS_ADMIN_PRIVILEDGE_ROLES,
     CEDISZ_ID,
     FULL_EMOJI,
     POLLS_PRIVILEDGE_ROLES,
@@ -214,7 +214,7 @@ class Poll(discord.ui.View):
     async def _set_privacy(self, interaction:discord.Interaction):
                 assert isinstance(interaction.user, Member)
                 assert self.privacy_button
-                if interaction.user.id == CEDISZ_ID or _check_priviledge(interaction.user, ADMIN_PRIVILEDGE_ROLES):
+                if interaction.user.id == CEDISZ_ID or _check_priviledge(interaction.user, POLLS_ADMIN_PRIVILEDGE_ROLES):
                     self.privacy_button.style = discord.ButtonStyle.blurple if self.privacy_button.style == discord.ButtonStyle.red else discord.ButtonStyle.red
                     self.privacy_button.label = PrivacyButtonText.PUBLIC.value if self.privacy_button.label == PrivacyButtonText.PRIVATE.value else PrivacyButtonText.PRIVATE.value
                     await interaction.response.edit_message(embeds=[await self.make_embed()], view=self)
@@ -225,7 +225,7 @@ class Poll(discord.ui.View):
                 print("results1")
                 assert isinstance(interaction.user, Member)
                 print("results2")
-                if interaction.user.id == CEDISZ_ID or interaction.user.id == self.author.id or _check_priviledge(interaction.user, ADMIN_PRIVILEDGE_ROLES):
+                if interaction.user.id == CEDISZ_ID or interaction.user.id == self.author.id or _check_priviledge(interaction.user, POLLS_ADMIN_PRIVILEDGE_ROLES):
                     print("results3")
                     self.show_results = not self.show_results  # inverts results visibility setting
                     await interaction.response.edit_message(embeds=[await self.make_embed()], view=self)
@@ -234,7 +234,7 @@ class Poll(discord.ui.View):
                     await interaction.response.send_message("Nie masz permisji!", ephemeral=True)
 
     async def _show_nonvoters(self, interaction:discord.Interaction):
-            if interaction.user.id == CEDISZ_ID or interaction.guild_id == ST_ADMIN_SERVER_ID or _check_priviledge(cast(Member, interaction.user), ADMIN_PRIVILEDGE_ROLES):
+            if interaction.user.id == CEDISZ_ID or interaction.guild_id == ST_ADMIN_SERVER_ID or _check_priviledge(cast(Member, interaction.user), POLLS_ADMIN_PRIVILEDGE_ROLES):
                 if isinstance(interaction.channel, discord.TextChannel):
                     #discord.Thread: belongs to TextChannel or ForumChannel
                     able_to_vote = interaction.channel.members
@@ -303,7 +303,7 @@ class Polls(Cog):
     def _check_if_poll_is_loaded(self, poll_id: int) -> bool:
         return any(poll.poll_id == poll_id for poll in self.current_session_polls.values())
 
-    '''@Cog.listener(name="on_interaction")
+    @Cog.listener(name="on_interaction")
     async def catch_poll_interaction(self, interaction: discord.Interaction):
         if (interaction.type != InteractionType.component):
             print("interaction is not a component interaction")
@@ -352,7 +352,7 @@ class Polls(Cog):
                     await poll._get_results(interaction)
                 case ButtonType.OPTION_VOTE:
                     print("test_option")
-                    await poll._option_button(interaction, button_index)'''
+                    await poll._option_button(interaction, button_index)
 
     @app_commands.command(name="ankieta", description="Stwórz ankietę")
     @app_commands.describe(tytuł="Wybierz tytuł ankiety",
